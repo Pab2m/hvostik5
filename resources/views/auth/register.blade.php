@@ -1,76 +1,65 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<div id='enter_html' class="col-md-7">
+@if((Session::has('message')) && (Auth::user()))
+{{Session::get('message')}}
+@else
+@if(!Auth::user())
+    <h3>Регистрация </h3>
+   <form id="form-registr" class="form-horizontal" method="POST" action="/registration">
+     {{ csrf_field() }}
+       <div class="form-group">
+   <div class="col-sm-2">
+    <label for="inputEmail3" class="ccontrol-label">Имя</label>
+   </div>
+    <div class="col-sm-9">
+      <input id="name" class="form-control" placeholder="Ваше имя" type="name" name="name" value="{{ old('name') }}" />
     </div>
+  </div>
+  <div class="form-group">
+   <div class="col-sm-2">
+    <label for="inputEmail3" class="ccontrol-label">Email</label>
+   </div>
+    <div class="col-sm-9">
+      <input id="inputEmail3" class="form-control" placeholder="Email" type="email" name="email" value="{{ old('email') }}" />
+    </div>
+  </div>
+  <div class="form-group">
+   <div class="col-sm-2">
+    <label for="inputPassword3" class="control-label">Пароль</label>
+   </div>
+    <div class="col-sm-9">
+       <input id="inputPassword3" class="form-control" placeholder="Пароль" type="password" name="password" />
+    </div>
+    <div class="col-sm-1 padding0">
+      {!! $errors->has('password') ? '<span class="glyphicon glyphicon-remove margin0" style="color: red; display: inline-block; opacity: 1;"></span>' :"" !!}
+    </div>
+  </div>
+     <div class="form-group">
+    <div class="col-sm-2">
+    <label for="inputPassword3" class="control-label">Пароль</label>
+    </div>
+    <div class="col-sm-9">
+      <input id="repeat_inputPassword3" class="form-control" placeholder="Повторите пароль" type="password" name="repeat_password" />
+    </div>
+    <div class="col-sm-1 padding0">
+      {!! $errors->has('repeat_password') ? '<span class="glyphicon glyphicon-remove margin0" style="color: red; display: inline-block; opacity: 1;"></span>' :"" !!}
+    </div>
+  </div>
+<div class="form-group container">
+    <div class="g-recaptcha" data-sitekey="6LcQUxgTAAAAAIPKtxdvQpU6khJph9w3s80swrpi"></div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="button" class="btn btn-default" id="registracion">Зарегистрироваться</button>
+    </div>
+  </div>
+</form>
+  @else
+  Вы уже зарегистрированы! И зашли на сайт!
+  @endif
+ @endif
 </div>
+
 @endsection

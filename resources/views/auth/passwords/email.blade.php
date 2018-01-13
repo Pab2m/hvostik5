@@ -1,47 +1,46 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
 <!-- Main Content -->
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
-                        {{ csrf_field() }}
+<div id="content">
+  @if(Auth::check())
+   <div id='enter_html' class="col-md-6">
+    Вы уже авторизованны, как {{Auth::user()->email}}<br>
+    <a href="/private_office">Личный кабинет</a><br>
+    <a href="/logout">Выйти</a>
+   </div>
+    @else
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+ <div id='enter_html' class="col-md-6">
+     @if (session('status'))
+       <div id="message-error col-md-6"> {{ session('status') }}</div>
+     @endif
+    <h3>Сбросить пароль</h3>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <form id='vhod_form' class='form-horizontal' role='form' method="post" action=" url('/password/email') ">     
+  {{ csrf_field() }}
+  <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
+    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    <div class="col-sm-10">
+       <input id='email' name="email" class="form-control" value="{{old('email')}}"  placeholder="Email" type="email" required/>
+        @if ($errors->has('email'))
+            <span class="help-block">
+                  <strong>{{ $errors->first('email') }}</strong>
+            </span>
+        @endif
     </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default" id="vhod_botton" name="vhod_botton">Сброс пароля</button>
+    </div>
+  </div>
+ </form>
 </div>
+
+     @endif
+</div>
+
+
 @endsection
