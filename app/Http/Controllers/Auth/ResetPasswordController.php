@@ -33,13 +33,13 @@ class ResetPasswordController extends Controller
      * @return void
      */
     public function __construct()
-    {
+    { 
         $this->middleware('guest');
     }
     public function ResetPassworsView(){
         return view('auth.passwords.email');
     }
     public function ResetPassworsEmailGo(){
-        
+
     }
 }

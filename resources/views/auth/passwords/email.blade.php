@@ -15,10 +15,10 @@
  <div id='enter_html' class="col-md-6">
      @if (session('status'))
        <div id="message-error col-md-6"> {{ session('status') }}</div>
-     @endif
+    @else
     <h3>Сбросить пароль</h3>
 
-    <form id='vhod_form' class='form-horizontal' role='form' method="post" action=" url('/password/email') ">     
+    <form id='vhod_form' class='form-horizontal' role='form' method="post" action="{{url('password/email')}}">
   {{ csrf_field() }}
   <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
@@ -37,6 +37,7 @@
     </div>
   </div>
  </form>
+ @endif
 </div>
 
      @endif

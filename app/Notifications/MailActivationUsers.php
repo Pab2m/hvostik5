@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class MailResetPasswordToken extends Notification
+class MailActivationUsers extends Notification
 {
     use Queueable;
 
@@ -16,9 +16,10 @@ class MailResetPasswordToken extends Notification
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct($id, $token)
     {
-      $this->token = $token;
+        $this->id = $id;
+        $this->token = $token;
     }
 
     /**
@@ -38,11 +39,11 @@ class MailResetPasswordToken extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
-    {
+    public function toMail($notifiable){
         return (new MailMessage)
-                    ->line('Вы получили это электронное письмо, потому что мы получили запрос на сброс пароля для вашей учетной записи.')
-                    ->action('Сбросить пароль!', url('password/reset', $this->token));
+                    ->subject('Подвердите Email')
+                    ->line('Вы зарегестрированлись на сайте '.config('app.name').'.<br> Для того чтобы, потвердить ваш Email, нажмите на кнопку  ниже.')
+                    ->action('Потвердить Email', route('activation_code',['id'=>$this->id,'activation_code'=>$this->token]));
     }
 
     /**

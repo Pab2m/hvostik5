@@ -27,7 +27,7 @@ Route::post('/registration', '\App\Http\Controllers\Auth\RegisterController@Regi
 Auth::routes();
 
 
-Route::get('/message', function(){
+Route::get('/message', function(){  return view('message');
     if(Session::has('message')){
     return view('message');
     } else {
@@ -36,7 +36,7 @@ Route::get('/message', function(){
 });
 
 Route::get('/test','\App\Http\Controllers\Auth\RegisterController@UserActivationMail');
-Route::get('/user/activation/{id}/{activation_code}','\App\Http\Controllers\UserController@getActivate');
+Route::get('/user/activation/{id}/{activation_code}','\App\Http\Controllers\UserController@getActivate')->name('activation_code');
 //Route::get('/user/password/reset','Auth\ResetPasswordController@ResetPassworsView');
 //Route::get('/user/reset/paswword','Auth\ResetPasswordController@ResetPassworsEmailGo');
 //Route::get('/user/password/resetemail',function(){return view('auth.passwords.reset');});

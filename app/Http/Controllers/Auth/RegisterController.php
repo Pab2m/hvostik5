@@ -80,18 +80,18 @@ class RegisterController extends Controller
             $validator = $this->validator($data);
         if($validator->fails()){
             return  redirect()->back()->withErrors($validator)->withInput();
-        } 
+        }
           foreach($data as &$value){
              $value = strip_tags($value);
           }
            $data['activation_code']=Str::random(14);
            $user = $this->create($data);
-           
+        
            $this->guard()->login($user);
            $user->UserActivationMail();
-           return redirect('/message')->with('message', 'На ваш адрес было выслано письмо с подтверждением регистрации'); 
-        
+           return redirect('/message')->with('message', 'На ваш адрес было выслано письмо с подтверждением регистрации');
+
     }
 
-    
+
 }
