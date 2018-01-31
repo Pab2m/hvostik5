@@ -3,8 +3,8 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-//use App\Notifications;
-//use App\Notifications\MailResetPasswordToken;
+use App\Notifications;
+use App\Notifications\MailResetPasswordToken;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable

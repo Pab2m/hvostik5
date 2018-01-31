@@ -1,10 +1,10 @@
 //var UrlImg, post=new Object();
 function Cshtora(){
    var htmlHtora = '<div id="htora"><div id="proces"><img  width="64" height="64" src="/img/loading-spinning-bubbles.svg"></div></div>';
-   var JqHtora = null;  
+   var JqHtora = null;
    this.GethtmlHtora = function(){
         return htmlHtora;
-   }  
+   }
    this.False = function(){
       this.JqHtora.show().hide(300);
    }
@@ -15,69 +15,69 @@ Cshtora.True = function(){
     Ht.JqHtora = $("#htora");
     Ht.JqHtora.hide().show(300);
     return Ht;
-} 
+}
 
 
 function Form(Object){
     this.id = Object.id || null,
-    this.active = Object.active || true;        
+    this.active = Object.active || true;
     this.arryForm = {};
     this.length = 0;
     this.button = Object.button || null;
     if(Object.button instanceof  Button){
-       Object.button.ObjectForm = this; 
+       Object.button.ObjectForm = this;
     }
     if(this.id){
-     this.QjObject = $(this.id);   
+     this.QjObject = $(this.id);
     }
-      
-    this.PushArray = function(object){ //PushArray 
-          this.arryForm[object.name] = object; 
+
+    this.PushArray = function(object){ //PushArray
+          this.arryForm[object.name] = object;
           this.length ++;
     },
      this.DeleteArray = function(object){
          delete this.arryForm[object.name];
          this.length --;
-     };       
-            
+     };
+
     this.Validacij = function(Objekt){
         var validateForma = true, validatePole = true;
         var Validate = function(Objekt){
             Objekt.ValidateNo();
             validatePole = false;
-           return false; 
-        };        
-        var ObjektA = Objekt || this; 
-      for(var key in ObjektA.arryForm){ 
-        if(((!ObjektA.arryForm[key].value)||(ObjektA.arryForm[key].value==''))&&(ObjektA.arryForm[key].surely)){ 
+           return false;
+        };
+        var ObjektA = Objekt || this;
+      for(var key in ObjektA.arryForm){
+        if(((!ObjektA.arryForm[key].value)||(ObjektA.arryForm[key].value==''))&&(ObjektA.arryForm[key].surely)){
            validateForma = Validate(ObjektA.arryForm[key]);
         }
         if((validatePole) && (ObjektA.arryForm[key] instanceof inputUl) && (ObjektA.arryForm[key].type === "email")){
           var reMail = /^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(.*@.+(\..{1,11})?)$/;
-             if(!reMail.test(ObjektA.arryForm[key].value)){ 
+             if(!reMail.test(ObjektA.arryForm[key].value)){
                validateForma = Validate(ObjektA.arryForm[key]);
-               }      
+               }
         }
          validatePole = true;
-    } 
+    }
     return validateForma;}
-     
+
     this.submit = function(){
        this.QjObject.submit();
     };
-    
+
 
 }
-function SeletUl(Object){// #id,oberka,divContener - обязательны   
+function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.id = Object.id || null,
-       this.name =  Object.name || this.id.split('#')[1], 
+       this.name =  Object.name || this.id.split('#')[1],
        this.oberka = Object.oberka || false,// form#id
        this.oberkaJq = Object.oberkaJq || $(Object.oberka) || null,
        this.oberkaClass = Object.oberkaClass || false,
        this.parentDiv = Object.divContener || false;
-       if(Object.QjObject === undefined){  
+       if(Object.QjObject === undefined){
        this.QjObject = this.oberka !== false || this.id !== false ? $(this.oberka+" "+this.id): false;
-       } else {this.QjObject = Object.QjObject;} 
+       } else {this.QjObject = Object.QjObject;}
        this.value = false,
        this.placeholder = Object.placeholder || false,
        this.html =  null,
@@ -90,15 +90,15 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.childEdit = function(){
            var edit = this.child.length;
            if((this.child.length === 1)||(this.child.length === 0)){
-             return this;  
+             return this;
            } else{
-            return  this.child[edit-2];}  
+            return  this.child[edit-2];}
        },
-       
+
       this.HtmlGet = function(){
           if((this.id!==false)){
-          this.name = this.name === false ? this.id.split('#')[1]+"_name":this.name;  
-          this.QjObject = $(this.id); 
+          this.name = this.name === false ? this.id.split('#')[1]+"_name":this.name;
+          this.QjObject = $(this.id);
           this.oberkaJq  = $(this.oberka);
           if(!this.placeholder){
           this.placeholder = this.QjObject.attr("data-placeholder");}
@@ -108,18 +108,18 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
          }
         // console.log(this.QjObject);
        },
-       
+
 
        this.choneSelect = function(){
            $(this.id).chosen();
        },
-               
+
       this.childSeletSQL = function(url, json, option, bd,Fn){
            var jsonTrue = json || false;
            var thisObject = this;
-           
-           if(this.parent.value !== false){     
-           var FN = Fn || function(){};    
+
+           if(this.parent.value !== false){
+           var FN = Fn || function(){};
          if(!bd){
            if(this.parent.valueArray == null){
            url += '/'+this.parent.value;
@@ -133,9 +133,9 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
             if(option){
                htmlOption += option;
             }
-            for(var i=0; i<dataArray.length; i++){
-               htmlOption += "<option value='"+dataArray[i]["id"]+"'>"+dataArray[i]["name"]+"</option>\n"
-              }
+             for (var key in dataArray) {
+                  htmlOption += "<option value='"+key+"'>"+dataArray[key]+"</option>\n"
+             }
            thisObject.html = "<div id='"+thisObject.oberka.split('#')[1]+"' class='"+thisObject.oberkaClass+"'>\n"+ //split обрезает #
                      "<select data-placeholder='"+thisObject.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+thisObject.id.split('#')[1]+"' name='"+(thisObject.name || thisObject.id.split('#')[1]) +"'>\n"+
                      htmlOption+"</select>\n</div>";
@@ -143,7 +143,7 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
          if(!jsonTrue){
              $(thisObject.parent.childEdit().oberka).after(thisObject.html);
              thisObject.HtmlGet();
-          
+
              $(thisObject.oberka).hide().fadeIn(300);
              thisObject.choneSelect();
         } else {
@@ -153,10 +153,10 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
              thisObject.HtmlGet();
              thisObject.choneSelect();
              }
-          FN();   
+          FN();
           }});
            }},
-          
+
        this.JsonOptionSet = function(url, FN){
         var arr,json;
         var F = FN || function(){};
@@ -165,26 +165,26 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
           url: url,
           dataType:json,
           success: function(data){
-              var htmlOption ="<option value=''></option>\n";
-              for(var i=0; i<data.length; i++){
-               htmlOption += "<option value='"+data[i]["id"]+"'>"+data[i]["name"]+"</option>\n"
-              }
-             ObjectSelect.QjObject.html(htmlOption);
-             ObjectSelect.choneSelect();
-             F();
-             }
+            var array = JSON.parse(data);
+            var htmlOption ="<option value=''></option>\n";
+            for (var key in array) {
+                 htmlOption += "<option value='"+key+"'>"+array[key]+"</option>\n"
+            }
+            ObjectSelect.QjObject.html(htmlOption);
+            ObjectSelect.choneSelect();
+            F();}
           });
     },
       this.ObjectChange =  function(ObjectFun){
-      var  objetThis = this; 
-      objetThis.QjObject.on("change", function(){  
+      var  objetThis = this;
+      objetThis.QjObject.on("change", function(){
       objetThis.value = objetThis.QjObject.val();
       if(ObjectFun){
-         ObjectFun(objetThis); 
+         ObjectFun(objetThis);
       }
-     }); 
+     });
            };
-             
+
    this.Delete = function(){
         if((this.oberka)&&(document.getElementById(this.oberka.split('#')[1]) !== null)){
         document.getElementById(this.oberka.split('#')[1]).remove();
@@ -193,14 +193,14 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
     this.OptionSet = function(Object){
         if(Object.option){
         var optionHtml = this.QjObject.html();
-            
+
         }
     };
     this.Set = function(id){
-    if(id != undefined){   
+    if(id != undefined){
     this.value = id;
     var Bd = this.QjObject.find("option[value='"+ this.value +"']");
-    Bd.attr("selected","selected"); 
+    Bd.attr("selected","selected");
     $("div"+this.id+"_chosen span").text(Bd.text());
    }
     }
@@ -211,16 +211,16 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
    return  this.oberkaJq.find("a.chosen-single span").text();
   };
 }
- 
- SeletUl.prototype.ValidateNo = function(){ 
+
+ SeletUl.prototype.ValidateNo = function(){
    this.oberkaJq.find('.chosen-single').css({border:"2px solid red"});
   var Object = this;
   var Fn = function(Object){
    $(Object.oberka).find('.chosen-single').css({border:"2px solid #24C8FF"});
-  };  
+  };
   Object.QjObject.one("change",function(){
       Fn(Object);
-  }); 
+  });
  }
 var inputUl = function(ObjectA){
     this.teg = ObjectA.teg || null;
@@ -232,27 +232,27 @@ var inputUl = function(ObjectA){
     if(this.QjObject == null){
       if(this.id != null){
         if(this.oberka){
-          this.QjObject = $(this.oberka+" "+this.id);  
+          this.QjObject = $(this.oberka+" "+this.id);
         } else{this.QjObject = $(this.id);}
-    } else if((this.name!=null) &&(this.teg !== null)){   
-          this.QjObject = $(this.teg+" [name='"+this.name+"']");  
-    } else if(this.html){ 
+    } else if((this.name!=null) &&(this.teg !== null)){
+          this.QjObject = $(this.teg+" [name='"+this.name+"']");
+    } else if(this.html){
         this.QjObject = $(this.html);}
     }
     this.value = ObjectA.value || this.QjObject.val() || '';
-    
+
     this.placeholder = ObjectA.placeholder || null,
     this.type = ObjectA.type || this.QjObject.attr("type") || null,
     this.class = ObjectA.class || null,
-    this.maxSize = ObjectA.maxSize || null, 
+    this.maxSize = ObjectA.maxSize || null,
     this.parent = ObjectA.parent || null,
     this.child = [],
     this.ObjectForm = ObjectA.ObjectForm || null,
     this.surely = ObjectA.surely || false,
     this.metka = ObjectA.metka;
-    
+
     this.htmlGet = function(){
-       if(this.QjObject){   
+       if(this.QjObject){
         this.name = this.QjObject.attr("name");
         this.type = this.QjObject.attr("type");
         this.placeholder = this.QjObject.attr("placeholder");
@@ -260,20 +260,20 @@ var inputUl = function(ObjectA){
         this.class = this.QjObject.attr("class");
       }else{console.log("Error htmlGet:"+this.QjObject); }
     };
-    this.htmlSet = function(){ 
+    this.htmlSet = function(){
          $(this.parent.childEdit().oberka).after(this.QjObject);
          if(this.id != null){
         if(this.oberka){
-          this.QjObject = $(this.oberka+" "+this.id);  
+          this.QjObject = $(this.oberka+" "+this.id);
         } else{this.QjObject = $(+this.id);}
-    } else if(this.name!=null){   
-          this.QjObject = $(this.teg+"[name='"+this.name+"']");  
+    } else if(this.name!=null){
+          this.QjObject = $(this.teg+"[name='"+this.name+"']");
     }
-    this.name = this.QjObject.attr("name"); 
-    }; 
+    this.name = this.QjObject.attr("name");
+    };
     this.val = function(value){
-       this.value = value; 
-       this.QjObject.val(value); 
+       this.value = value;
+       this.QjObject.val(value);
     }
     this.ValueSetRadio = function(id) {
         if(id != undefined){
@@ -281,11 +281,11 @@ var inputUl = function(ObjectA){
          val.prop({checked:true});
         }
     };
-    
+
      var zhis = this;
         if( this.ObjectForm!==null){
         this.ObjectForm.PushArray(this);
-           
+
     }
 
      this.Delete =  function(){
@@ -295,15 +295,15 @@ var inputUl = function(ObjectA){
             this.ObjectForm.DeleteArray(this);}
         }}
     if(!this.QjObject){
-          this.QjObject = $(this.id);  
+          this.QjObject = $(this.id);
     }
-      
-  if(this.QjObject.length){                 
+
+  if(this.QjObject.length){
   if((this.type =="radio")||(this.type  == "checkbox")){
         this.QjObject.on("change",function(){
            this.value = this.QjObject.val();
         });
-  }else{  
+  }else{
   this.QjObject.on("focusout",function(){
            zhis.value = zhis.QjObject.val();
          });
@@ -315,9 +315,9 @@ var inputUl = function(ObjectA){
         });
  }}
  }
-        
+
 inputUl.inputUlSet = function(Object){
-  if(Object.id){  
+  if(Object.id){
  var  NewinputUl = new inputUl(Object);
       NewinputUl.QjObject = $(NewinputUl.id);
       NewinputUl.oberka === null ? NewinputUl.QjObject.parent("div").attr("id"): NewinputUl.oberka;
@@ -327,28 +327,28 @@ inputUl.inputUlSet = function(Object){
       NewinputUl.value = NewinputUl.QjObject.val();
       NewinputUl.placeholder = NewinputUl.QjObject.attr('placeholder');
       NewinputUl.metka = Object.metka;
-      return NewinputUl;  
- }       
+      return NewinputUl;
+ }
 }
 inputUl.prototype.ValidateNo = function(){
       this.QjObject.css({border:"1px solid red"});
       var Object = this;
      Object.QjObject.one("click",function(){
      Object.QjObject.css({border:"1px solid #ccc"});
-  }); 
+  });
 };
 
-function Button(ObjectP){ 
+function Button(ObjectP){
        this.id = ObjectP.id || null,
        this.oberka = ObjectP.oberka || false,// form#id
        this.oberkaJq = $(ObjectP.oberka) || null,
        this.oberkaClass = ObjectP.oberkaClass || false,
-       this.parentDiv = ObjectP.parentDiv || false,  
+       this.parentDiv = ObjectP.parentDiv || false,
        this.class = ObjectP.class || null;
        this.text = ObjectP.text || null,
        this.html = ObjectP.html || null,
        this.ObjectForm = ObjectP.ObjectForm,
-       this.Fn = ObjectP.Fn || null; 
+       this.Fn = ObjectP.Fn || null;
        this.delegirovanie = ObjectP.delegirovanie || false;
 
        this.QjObjectUpdating = function(){
@@ -360,7 +360,7 @@ function Button(ObjectP){
                } else if(this.html != null ) {
                    this.QjObject = $(this.html);
                } else {
-                  this.QjObject = null;  
+                  this.QjObject = null;
                }
            }
        };
@@ -372,11 +372,11 @@ function Button(ObjectP){
        };
       this.QjObjectUpdatingHtml = function(){
          if(this.html != null){
-           this.QjObject = $(this.html);  
+           this.QjObject = $(this.html);
          } else {
-            this.QjObject = null; 
-         }  
-       }; 
+            this.QjObject = null;
+         }
+       };
         /**
          * Проверить есть ли событие eventname на элементе element
          * @param object element jQuery-элемент
@@ -407,27 +407,27 @@ function Button(ObjectP){
             return ret;
         }
 
-          
+
      if(this.Fn != null){
       var Parameter = ObjectP.Fn.Parameter || {};
-      var Function = ObjectP.Fn.Fn || ObjectP.Fn || null; 
-      
-      if((Function !== undefined) ||(Function !== null)){  
-          
-       var zhis = this; 
+      var Function = ObjectP.Fn.Fn || ObjectP.Fn || null;
+
+      if((Function !== undefined) ||(Function !== null)){
+
+       var zhis = this;
        if(!checkEvent(zhis)){
        if((this.delegirovanie) && (this.parentDiv !== false)){
-        $("#"+this.parentDiv).on("click","."+this.class, function(){ 
-            var elem = $(this); 
-            Function(Parameter,elem,zhis);  
-          });    
+        $("#"+this.parentDiv).on("click","."+this.class, function(){
+            var elem = $(this);
+            Function(Parameter,elem,zhis);
+          });
        } else {
            this.QjObject.on("click", function(){
                var elem = $(this);
-               Function(Parameter,elem, zhis); 
+               Function(Parameter,elem, zhis);
 
            });
-       }  
+       }
    }}
 
     }
@@ -442,26 +442,26 @@ function Button(ObjectP){
             this.QjObject.unbind("click");
             Parameter = ObjectP.Parameter;
             Function = ObjectP.Fn.Fn;
-          if((Function !== undefined) ||(Function !== null)){  
+          if((Function !== undefined) ||(Function !== null)){
            var zhis = this;
        if((this.delegirovanie) && (this.parentDiv !== false)){
-    
+
         $("#"+this.parentDiv).on("click","."+this.class, function(){
-            var elem = $(this); 
-            Function(Parameter,elem);   
-          });    
+            var elem = $(this);
+            Function(Parameter,elem);
+          });
        } else {
            this.QjObject.on("click", function(){
                var elem = $(this);
-               Function(Parameter,elem); 
+               Function(Parameter,elem);
            });
-       }  
+       }
    }
             }
     });
 }
 
- 
+
  function Fails(FormJq,Fn){
     // Обаботка события нажатия на кнопку "Загрузить". Проходим по всем миниатюрам из списка,
     // читаем у каждой свойство file (добавленное при создании) и начинаем загрузку, создавая
@@ -498,12 +498,12 @@ function Button(ObjectP){
                        if($(element).val()==0){
                            alert('При загрузки файла под номером '+(indx+1)+' произошла ошибка!');
                        }
-                   });      
+                   });
            //   $("form#add").submit();
              Fn();
              return true;
-              
-                 }                         
+
+                 }
                 }
             });
         });
@@ -511,7 +511,7 @@ function Button(ObjectP){
       //  $("form#add").submit();
       Fn();
         return true;
-      }   
+      }
 }
 
 var myModal = function(ObjectP){
@@ -532,26 +532,26 @@ var myModal = function(ObjectP){
                        +' </div>'
                        +'</div>'
                        + '</div>'
-                       +'</div>'; 
-    $("body").append(htmLmyModal);           
+                       +'</div>';
+    $("body").append(htmLmyModal);
     this.myModal =  $("body #"+id);
-  
+
    this.myModal.appendTo("body")
     this.title = ObjectP.title || '',
     this.bodyHtml ='<div class="row"><div class="col-md-11 col-sm-11">' + ObjectP.bodyHtml || '' + '</div></div>',
 
-    this.Hide = function(){  
-       this.ButtonOk.QjObject.unbind('click'); 
+    this.Hide = function(){
+       this.ButtonOk.QjObject.unbind('click');
        this.myModal.modal('hide');
        };
      this.myModal.on('hidden.bs.modal', function(e){
-         myModalActive = false;  
+         myModalActive = false;
         $("body #"+id).remove();
      });
-    this.Show = function(){    
+    this.Show = function(){
        if(myModalActive){this.Hide();}
        this.myModal.modal('show');
-       myModalActive = true; 
+       myModalActive = true;
     };
     this.TitleEdit = function(title){
          this.title = title;
@@ -560,12 +560,12 @@ var myModal = function(ObjectP){
 //    this.bodyHtmlEdit = function(bodyHtml){
 //         this.bodyHtml = '<div class="row"><div class="col-md-11 col-sm-11">' + bodyHtml || '' + '</div></div>';
 //         this.myModal.find('div.modal-body').html(this.bodyHtml);
-//    },       
-            
+//    },
+
     this.ButtonCloseHide = function(){
         this.myModal.find("button.close").hide();
-    };        
-    var myModalActive = false;       
+    };
+    var myModalActive = false;
     var htmlModal = this.myModal.html();
     if(ObjectP.btnDefault == undefined){
         var zhis = this.myModal;
@@ -579,12 +579,12 @@ var myModal = function(ObjectP){
     }
     ObjectP.ButtonNone = ObjectP.ButtonNone || {};
 //    if(ObjectP.ButtonOk.Parameter == undefined){
-//      ObjectP.ButtonOk.Parameter = {};  
+//      ObjectP.ButtonOk.Parameter = {};
 //    }
     ObjectP.ButtonOk =  ObjectP.ButtonOk || {};
     ObjectP.ButtonOk.Parameter = ObjectP.ButtonOk.Parameter || {};
     ObjectP.ButtonOk.Parameter.myModal = this;
-  
+
     this.ButtonNone = new Button({QjObject:this.myModal.find("button.btn-default"),Fn:btnDefault, id:ObjectP.ButtonNone.id || null, class:"btn-default btn "+ObjectP.ButtonNone.class, text:ObjectP.ButtonNone.text || "Отмена"});
     this.ButtonOk = new Button({QjObject:this.myModal.find("button.btn-primary"), Fn:ObjectP.ButtonOk|| null, id:ObjectP.ButtonOk.id || null, class:"btn-default btn "+ObjectP.ButtonOk.class, text:ObjectP.ButtonOk.text || "Ок"});
 
@@ -632,12 +632,12 @@ var inputPasswordRegist = function(ObjectP){
     this.InputPassword.Password.InputValidate = new Object();
     this.InputPassword.Password.InputValidate.Yes = false;
     this.InputPassword.Password.InputValidate.No = false;
-    
+
     this.InputPassword.PasswordRepeat.glyphiconJq = this.InputPassword.PasswordRepeat.QjObject.parents(".form-group").find("div.col-sm-1");
     this.InputPassword.PasswordRepeat.InputValidate = new Object();
     this.InputPassword.PasswordRepeat.InputValidate.Yes = false;
     this.InputPassword.PasswordRepeat.InputValidate.No = false;
-   
+
     var glyphiconNoJqP = $('<span class="glyphicon glyphicon-remove margin0"></span>').css({color:"red"}).hide();
     var glyphiconYesJqP = $('<span class="glyphicon glyphicon-ok margin0"></span>').css({color:"green"}).hide();
     var glyphiconNoJqR = glyphiconNoJqP.clone();
@@ -648,11 +648,11 @@ var inputPasswordRegist = function(ObjectP){
            glyphiconJq.append(glyphiconNoJq.css({display:"inline-block",opacity:0}).animate({opacity:1},600));
            Validate.No = true;
         if(Validate.Yes === true){
-          glyphiconYesJq.animate({opacity:0},1000).css({display:"none"}).remove();  
+          glyphiconYesJq.animate({opacity:0},1000).css({display:"none"}).remove();
           Validate.Yes = false;
         }}
        };
-    
+
     var glyphiconYes = function(glyphiconJq,glyphiconNoJq, glyphiconYesJq, Validate){
         if(Validate.No === true){
         glyphiconNoJq.animate({opacity:0},1000).css({display:"none"}).remove();
@@ -661,34 +661,34 @@ var inputPasswordRegist = function(ObjectP){
         Validate.No = false;
         }
     };
-    
+
     this.InputPassword.Password.QjObject.on("input",function(){
         if(zhis.InputPassword.Password.value.length < 6 ){
-            glyphiconNo(zhis.InputPassword.Password.glyphiconJq,glyphiconNoJqP, glyphiconYesJqP, zhis.InputPassword.Password.InputValidate); 
+            glyphiconNo(zhis.InputPassword.Password.glyphiconJq,glyphiconNoJqP, glyphiconYesJqP, zhis.InputPassword.Password.InputValidate);
         } else {glyphiconYes(zhis.InputPassword.Password.glyphiconJq, glyphiconNoJqP, glyphiconYesJqP, zhis.InputPassword.Password.InputValidate);}
         if(zhis.InputPassword.PasswordRepeat.InputValidate.Yes === true){
-           glyphiconNo(zhis.InputPassword.PasswordRepeat.glyphiconJq,glyphiconNoJqR, glyphiconYesJqR, zhis.InputPassword.PasswordRepeat.InputValidate); 
+           glyphiconNo(zhis.InputPassword.PasswordRepeat.glyphiconJq,glyphiconNoJqR, glyphiconYesJqR, zhis.InputPassword.PasswordRepeat.InputValidate);
         }
     });
-    
+
     this.InputPassword.PasswordRepeat.QjObject.on("input",function(){
         if((zhis.InputPassword.Password.value !== zhis.InputPassword.PasswordRepeat.value) || (zhis.InputPassword.Password.InputValidate.Yes === false)){
-            glyphiconNo(zhis.InputPassword.PasswordRepeat.glyphiconJq,glyphiconNoJqR, glyphiconYesJqR, zhis.InputPassword.PasswordRepeat.InputValidate);    
-        } else { 
+            glyphiconNo(zhis.InputPassword.PasswordRepeat.glyphiconJq,glyphiconNoJqR, glyphiconYesJqR, zhis.InputPassword.PasswordRepeat.InputValidate);
+        } else {
             glyphiconYes(zhis.InputPassword.PasswordRepeat.glyphiconJq, glyphiconNoJqR, glyphiconYesJqR, zhis.InputPassword.PasswordRepeat.InputValidate);
         }
     });
     this.ValidateNo = function(){
-         var tr = false; 
+         var tr = false;
          for (var key in this.InputPassword) {
               if(this.InputPassword[key].value == ''){
-                 tr = true;  
-                 this.InputPassword[key].ValidateNo(); 
-              }    
+                 tr = true;
+                 this.InputPassword[key].ValidateNo();
+              }
          }
          if((tr) && (this.InputPassword.Password.value !== this.InputPassword.PasswordRepeat.value)){
-            this.InputPassword.PasswordRepeat.ValidateNo(); 
-         }  
+            this.InputPassword.PasswordRepeat.ValidateNo();
+         }
     };
      Object.defineProperty(this, "value", {
             get: function() {
@@ -703,14 +703,14 @@ var inputPasswordRegist = function(ObjectP){
 };
 
 $(document).ready(function(){
-    $(function() { 
-        var WindowHeight = $(window).height(); 
+    $(function() {
+        var WindowHeight = $(window).height();
         var TitleY = $("#content-left").offset().top;
         if(WindowHeight <= TitleY){
             setTimeout(function(){ window.scrollTo( 0, TitleY)});
     }});
-     
-     
+
+
 if($("div").is("#add_post")){
     yepnope("/script/addPost.js");
 }
@@ -718,16 +718,16 @@ if($("div").is("#edit_post")){
     yepnope("/script/editPost.js");
 }
 if($("form").is("#formSearch")){
-    yepnope("/script/search.js");  
+    yepnope("/script/search.js");
 }
 if($("form").is("#form-registr")){
    var Sumbit = {};
    Sumbit.Parameter = {};
    Sumbit.Fn = function(){
        if(registracionForm.Validacij()){
-          registracionForm.submit(); 
+          registracionForm.submit();
        }
-   }; 
+   };
    var registracionButton = new Button({id:"registracion", Fn:Sumbit});
    var registracionForm = new Form({id:"#form-registr",button:registracionButton});
 
@@ -737,51 +737,51 @@ if($("form").is("#form-registr")){
              if(!reMail.test(email.value)){
                  email.ValidateNo();
                  email.value = '';
-               } 
+               }
        });
-   
-   var password = new inputUl({teg:"input", id:"#inputPassword3", name:"",ObjectForm:registracionForm}); 
+
+   var password = new inputUl({teg:"input", id:"#inputPassword3", name:"",ObjectForm:registracionForm});
    var passwordRegist =  new inputUl({teg:"input", id:"#repeat_inputPassword3", name:"",ObjectForm:registracionForm});
    var inputPassword = new inputPasswordRegist({Password:password, PasswordRepeat:passwordRegist});
- 
-} 
-         
-      
-//Редактирование         
+
+}
+
+
+//Редактирование
    $('li.li_delet').on('click','div.deletImg_ser',function(){
        var N=$(this).data('fooBar');
        var imgUrl=$(this).parent().children('img').attr('src');
        $("form#add").append("<input class='img_delet' type='hidden' name='img_delet[]' value='"+N+"'>");
        $(this).text('Отменить').attr({'class':'otm_deletImg_ser','data-foo-url':imgUrl});
        $(this).parent().children('img').attr('src','/images_post/delete_img.png');
-   
-     });   
-   
-   
+
+     });
+
+
  $('li.li_delet').on('click','.otm_deletImg_ser',function(){
       $('input.img_delet[value="'+$(this).data('fooBar')+'"]').remove();
       console.log($(this).data('fooUrl'));
       $(this).parent().children('img').attr('src',$(this).data('fooUrl'));
       $(this).text('Удалить').attr({'class':'deletImg_ser','data-foo-url':''});
 
-   });  
-   
-if($("div").is("#announcement")){ 
-    var panelAnnoucement = function(ObjectP){ 
+   });
+
+if($("div").is("#announcement")){
+    var panelAnnoucement = function(ObjectP){
         this.QjObject = $("#panel-annoucement");
         var show = false;
         var postDel = this.QjObject.find('span#post-del-size');
         var DeletPostLength = 0;
-          
+
         this.DeletInput = function(value){
              if(value === undefined){
-                this.PanelFrom.QjObject.find("input").remove(); 
+                this.PanelFrom.QjObject.find("input").remove();
                 DeletPostLength = 0;
              } else {
                 this.PanelFrom.QjObject.find("input[value='"+value+"']").remove();
                if(DeletPostLength !== 0) DeletPostLength--;
-             }            
-        };  
+             }
+        };
         this.postDelSize = function(){
              postDel.text(DeletPostLength);
         };
@@ -792,10 +792,10 @@ if($("div").is("#announcement")){
              show = true;}
         };
         this.Hide = function(){
-           if(show){ 
+           if(show){
              this.QjObject.hide(300);
-             show = false; 
-             } 
+             show = false;
+             }
         };
          var actionButtonFn = {}, cancellationButtonFn = {};
         if(ObjectP.actionButtonFn != undefined){
@@ -805,15 +805,15 @@ if($("div").is("#announcement")){
         if(ObjectP.cancellationButtonFn != undefined){
            cancellationButtonFn = ObjectP.cancellationButtonFn;
            cancellationButtonFn.Parameter.zhis = this;
-        } else {cancellationButtonFn.Parameter = {zhis:this}; cancellationButtonFn.Fn = function(Parameter){ 
-            Parameter.zhis.Hide();  
+        } else {cancellationButtonFn.Parameter = {zhis:this}; cancellationButtonFn.Fn = function(Parameter){
+            Parameter.zhis.Hide();
         };}
         this.actionButton = new Button({QjObject:this.QjObject.find("#panel-annoucement-action"),Fn:actionButtonFn});
         this.cancellationButton = new Button({QjObject:this.QjObject.find("#panel-annoucement-cancellation"), Fn:cancellationButtonFn});
         this.PanelFrom = new Form({id:"#delete-posts"});
-        this.AddInput = function(value, name){ 
+        this.AddInput = function(value, name){
              this.PanelFrom.QjObject.append('<input name="'+name+'" type="hidden" value="'+value+'">');
-             DeletPostLength++; 
+             DeletPostLength++;
              this.postDelSize(DeletPostLength);
         };
         this.deletInput = function(option){//"input[value="88"]"
@@ -821,10 +821,10 @@ if($("div").is("#announcement")){
              InputDelet.remove();
              DeletPostLength -= InputDelet.length;
              if(DeletPostLength <= 0){
-                this.Hide(); 
+                this.Hide();
              }
              this.postDelSize();
-             
+
         };
         };
          var actionButtonFn = {};
@@ -851,9 +851,9 @@ if($("div").is("#announcement")){
                 Parameter.zhis.deletInput("input[name='delet[]']");
                 Parameter.zhis.Hide()
         };
-    var AnnoucementPanel = new panelAnnoucement({actionButtonFn:actionButtonFn, cancellationButtonFn:cancellationButtonFn});  
+    var AnnoucementPanel = new panelAnnoucement({actionButtonFn:actionButtonFn, cancellationButtonFn:cancellationButtonFn});
 
-    var ArrayButtonPost = {}, Announcement = {}; 
+    var ArrayButtonPost = {}, Announcement = {};
     var FspanPostDelete = {};
         FspanPostDelete.Parameter = {ArrayButtonPost:ArrayButtonPost, Announcement:Announcement};
         FspanPostDelete.Fn = function(Parameter,elem,zhis){
@@ -870,8 +870,8 @@ if($("div").is("#announcement")){
              ArrayButtonPostFn.Parameter = FspanPostDelete.Parameter;
              $.extend(actionButtonFn.Parameter, ArrayButtonPostFn.Parameter);
              $.extend(cancellationButtonFn.Parameter, ArrayButtonPostFn.Parameter);
-             ArrayButtonPostFn.Fn = function(Parameter,elem,zhis){ 
-                AnnoucementPanel.deletInput("input[value='"+elem.val()+"']");   
+             ArrayButtonPostFn.Fn = function(Parameter,elem,zhis){
+                AnnoucementPanel.deletInput("input[value='"+elem.val()+"']");
                 Parameter.Announcement[postId].delete.hide(300);
                 Parameter.Announcement[postId].delete.remove();
                 Parameter.Announcement[postId].post.find('.row').show(300);
@@ -881,9 +881,9 @@ if($("div").is("#announcement")){
              AnnoucementPanel.Show();
         };
     var spanPostDelete = new Button({QjObject:$("span.post-delete"),Fn:FspanPostDelete});
-   
-}      
-        
+
+}
+
 $('#myModal').on("click","button.btn-primary",function(){;
     var formDeletePost=$("#delete-posts");
     if(formDeletePost.find("input[name='delet[]']").length>0){
@@ -893,12 +893,12 @@ $('#myModal').on("click","button.btn-primary",function(){;
 
 $('div.modal-body').on('click','.del-none',function(){
   var delNoneId = $(this).data('postId');
-      postDelSize=$('div.modal-body .del-none').length; 
-      postDelSize--; 
-      var myModal = $('#myModal'); 
+      postDelSize=$('div.modal-body .del-none').length;
+      postDelSize--;
+      var myModal = $('#myModal');
       myModal.find('div.modal-body .row-'+delNoneId).remove();
       if(postDelSize<=0){
-         myModal.modal('hide'); 
+         myModal.modal('hide');
          $('#panel-annoucement').css('display','none');
       }
    $('form#delete-posts input[value="'+delNoneId+'"]').remove();
@@ -906,17 +906,17 @@ $('div.modal-body').on('click','.del-none',function(){
        postNoneDel.find('.row-1').css('display','block');
        postNoneDel.find('.row-2').remove();
        $('#panel-annoucement').find('span#post-del-size').text(postDelSize);
-});    
-      
+});
+
  $("#myModal").on("click","#DeletPost",function(){
      $("form#post-delete").submit();
- }); 
- 
+ });
+
  $("button#email_pusk").on("click",function(){
-    var myModal = $('#myModal');  
+    var myModal = $('#myModal');
     myModal.find('h4').text('Отправить сообщение');
     myModal.find('button.btn-primary').attr("class","btn-primary btn").attr("id","emailOk").text("Отправить");
-    myModal.find('button.btn-default').attr("class","btn-default btn").text("Отменить"); 
+    myModal.find('button.btn-default').attr("class","btn-default btn").text("Отменить");
     var forma='<form id="formEmail" class="form-horizontal" enctype="multipart/form-data" role="form" accept-charset="UTF-8" action="" method="POST">'
               +'<div class="form-group  has-feedback" id="divVasEmail">'
               +'<div class="col-sm-12">'
@@ -935,8 +935,8 @@ $('div.modal-body').on('click','.del-none',function(){
      myModal.find('div.modal-body').html('<div class="row"><div class="col-md-11 col-sm-11 formDiv">'+forma+'</div></div>');
      myModal.modal('show');
  });
- 
- $("#myModal").on("click","button#emailOk", function(){ 
+
+ $("#myModal").on("click","button#emailOk", function(){
      var Value = new Object;
       Value['emailOt'] = $("input#vasEmail");
       Value['title'] =  $("#titleEmail");
@@ -960,20 +960,20 @@ $('div.modal-body').on('click','.del-none',function(){
      Value['emailOt'].on("click",function(){
          Value['emailOt'].parent("div").find("span.glyphicon").remove();
          Value['emailOt'].css("border","1px solid #CCCCCC");
-     });        
-       }  
+     });
+       }
        if(Value["title"]){
         Value['title'].on("click",function(){
          Value['title'].parent("div").find("span.glyphicon").remove();
          Value['title'].css("border","1px solid #CCCCCC");
-     });  
+     });
        }
       if(TextValue){
        Text.on("click",function(){
        Text.css("border","1px solid #CCCCCC");
-     });  
-          
-      } 
+     });
+
+      }
 }
   if(ValueTrue){
      $.post("/ajax/user/message",
@@ -990,12 +990,10 @@ $('div.modal-body').on('click','.del-none',function(){
           $('#myModal button.btn-default').text("Закрыть");
       }
   }
-         ); 
+         );
   }
-    
+
  });
 
-      
-   });
-   
 
+   });
