@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Region;
+use App\Region; use App\Categorey;
 class SelectController extends Controller
 {
     public function DataSelectRegions(){
@@ -15,12 +15,22 @@ class SelectController extends Controller
     }
 
     public function DataSelectCategorey(){
-      return json_encode(\App\Categorey::all()->pluck('name','id'));
+      return json_encode(Categorey::all()->pluck('name','id'));
     }
-
+     public function DataSelectBreed($id_categorey){
+       $categorey = Categorey::find((int)$id_categorey);
+         if($categorey === null){
+           return 0;
+         }
+       $breeds = $categorey->breeds;
+       $placeholderArray = $breeds->where('placeholder',true)->all();
+       $placeholder = array_shift($placeholderArray)->name;
+       $breeds = $breeds->where('placeholder',false);
+       return json_encode(['breeds'=>$breeds->pluck('name','id'), 'placeholder'=>$placeholder]);
+     }
     public function CategoreyType($id){
-      $categorey = \App\Categorey::find($id);
-      return $categorey->type->pluck('name','id');
+      $categorey = Categorey::find($id);
+      return json_encode($categorey->type->pluck('name','id'));
     }
 
 }

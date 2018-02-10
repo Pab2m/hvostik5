@@ -65,9 +65,8 @@ function Form(Object){
     this.submit = function(){
        this.QjObject.submit();
     };
-
-
 }
+
 function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.id = Object.id || null,
        this.name =  Object.name || this.id.split('#')[1],
@@ -86,7 +85,8 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.json = null,
        this.ObjectForm = Object.ObjectForm || false,
        this.surely = Object.surely || false,
-       this.metka = Object.metka,
+       this.metka = Object.metka;
+
        this.childEdit = function(){
            var edit = this.child.length;
            if((this.child.length === 1)||(this.child.length === 0)){
@@ -112,19 +112,41 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
 
        this.choneSelect = function(){
            $(this.id).chosen();
-       },
+       };
 
-      this.childSeletSQL = function(url, json, option, bd,Fn){
+       this.isAtDomm = function(){
+          if (this.QjObject.length === 0) return false; else return true;
+       };
+       //dataArray - Object, array
+       this.BuildSelect = function(dataArray){
+            var htmlOption ="<option value=''></option>\n";
+            for (var key in dataArray) {
+                 htmlOption += "<option value='"+key+"'>"+dataArray[key]+"</option>\n"
+            }
+
+            this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"+ //split обрезает #
+                      "<select data-placeholder='"+this.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+this.id.split('#')[1]+"' name='"+(this.name || this.id.split('#')[1]) +"'>\n"+
+                      htmlOption+"</select>\n</div>";
+       };
+
+       this.Delete = function(){//console.log($(this.oberka));
+      //   console.log($(this.oberka));
+        // $(this.oberka).remove();
+        if((this.oberka)&&(document.getElementById(this.oberka.split('#')[1]) !== null)){
+          document.getElementById(this.oberka.split('#')[1]).remove();
+          this.ObjectForm.DeleteArray(this);}
+        };
+
+  /*    this.childSeletSQL = function(url, json, option, bd,Fn){
            var jsonTrue = json || false;
            var thisObject = this;
-
            if(this.parent.value !== false){
            var FN = Fn || function(){};
          if(!bd){
            if(this.parent.valueArray == null){
            url += '/'+this.parent.value;
             } else {url += '/'+this.parent.valueArray[this.parent.value]; }}
-        else { url += '/'+bd;}
+        else { url += '/'+bd;} alert(url);
       $.ajax({
          url: url,
           success: function(data){
@@ -155,11 +177,52 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
              }
           FN();
           }});
-           }},
+        }},*/
+          //url -- адрес запроса
+          //ParentValue - значения value родителя
 
-       this.JsonOptionSet = function(url, FN){
-        var arr,json;
+        this.childSeletSQL = function(Parameters){//url, json, option, bd,Fn)
+                 var url = Parameters.url// || return console.log('Ошибка!!! Неправильный адрес запроса!');
+                 var ParentValue = Parameters.ParentValue || false;
+                 var OptionZero = Parameters.OptionZero || false;
+                 var placeholder = Parameters.placeholder || false;
+                 var FN = Parameters.FN || function(){};
+                 if(ParentValue){
+                    url+='/' + this.parent.value;
+                 } else return console.log('Ошибка!!! Нет значения value у родителя!');
+                 var thisObject = this;
+            $.ajax({
+               url: url,
+                success: function(data){
+                  var htmlOption ="<option value=''></option>\n";
+                  if(OptionZero){
+                     htmlOption += option;
+                  }
+                  var Array = JSON.parse(data);
+                  if(Array.length === 0){
+                                $(thisObject.oberka).hide(300).remove();
+                                 thisObject.ObjectForm.DeleteArray(thisObject);
+                                }
+                  else {
+                  if(placeholder){
+                    thisObject.placeholder = Array.placeholder;
+                    thisObject.BuildSelect(Array.breeds);
+                  } else {
+                   thisObject.BuildSelect(Array);
+                  }
+              thisObject.Delete();
+              $(thisObject.parent.childEdit().oberka).after(thisObject.html);
+               $(thisObject.oberka).hide().show(300);
+            //   thisObject.HtmlGet();
+               thisObject.choneSelect();
+                FN();
+              }}});
+              },
+
+       this.JsonOptionSet = function(url, FN, placeholderP){
+        var json;
         var F = FN || function(){};
+        var placeholder = placeholderP || false;
         var ObjectSelect = this;
          $.ajax({
           url: url,
@@ -175,21 +238,16 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
             F();}
           });
     },
-      this.ObjectChange =  function(ObjectFun){
+
+    this.ObjectChange =  function(ObjectFun){
       var  objetThis = this;
+      var FN = ObjectFun || function(objetThis){};
       objetThis.QjObject.on("change", function(){
       objetThis.value = objetThis.QjObject.val();
-      if(ObjectFun){
-         ObjectFun(objetThis);
-      }
+      FN(objetThis);
      });
            };
 
-   this.Delete = function(){
-        if((this.oberka)&&(document.getElementById(this.oberka.split('#')[1]) !== null)){
-        document.getElementById(this.oberka.split('#')[1]).remove();
-        this.ObjectForm.DeleteArray(this);
-    }};
     this.OptionSet = function(Object){
         if(Object.option){
         var optionHtml = this.QjObject.html();
@@ -218,10 +276,11 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
   var Fn = function(Object){
    $(Object.oberka).find('.chosen-single').css({border:"2px solid #24C8FF"});
   };
-  Object.QjObject.one("change",function(){
+  Object.QjObject.one("change",function(){ console.log(88);
       Fn(Object);
   });
  }
+
 var inputUl = function(ObjectA){
     this.teg = ObjectA.teg || null;
     this.id = ObjectA.id || null;
