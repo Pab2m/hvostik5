@@ -13,7 +13,49 @@ class CreateAdTable extends Migration
      */
     public function up()
     {
-        //
+      Schema::create('ad', function (Blueprint $table) {
+          $table->increments('id');
+
+        $table->integer('id_user')->unsigned()->index();
+        $table->foreign('id_user')
+                      ->references('id')->on('users')
+                      ->onDelete('cascade')->onUpdate('cascade');
+
+         $table->integer('id_region')->unsigned()->index();
+          $table->foreign('id_region')
+                ->references('id')->on('regions')
+                ->onDelete('cascade')->onUpdate('cascade');
+
+         $table->integer('id_city')->unsigned()->index();
+         $table->foreign('id_city')
+                ->references('id')->on('citys')
+                ->onDelete('cascade')->onUpdate('cascade');
+
+        $table->integer('id_category')->unsigned();
+          $table->foreign('id_category')
+                  ->references('id')->on('categorys')
+                  ->onDelete('cascade')->onUpdate('cascade');
+
+          $table->integer('id_breed')->unsigned();
+          $table->foreign('id_breed')->nullable()
+                  ->references('id')->on('breeds')
+                  ->onDelete('cascade')->onUpdate('cascade');
+
+          $table->integer('id_type')->unsigned();
+          $table->foreign('id_type')->nullable()
+                  ->references('id')->on('type')
+                  ->onDelete('cascade')->onUpdate('cascade');
+          $table->string('title');
+          $table->string('url');
+          $table->string('preview_foto');
+          $table->string('foto');
+          $table->string('email');
+          $table->string('phone');
+          $table->text('text');
+          $table->integer('status');
+          $table->timestamps();
+          $table->softDeletes();
+      });
     }
 
     /**
@@ -23,6 +65,6 @@ class CreateAdTable extends Migration
      */
     public function down()
     {
-        //
+          Schema::dropIfExists('ad');
     }
 }
