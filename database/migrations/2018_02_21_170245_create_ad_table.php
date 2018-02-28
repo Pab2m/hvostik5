@@ -37,14 +37,25 @@ class CreateAdTable extends Migration
                   ->onDelete('cascade')->onUpdate('cascade');
 
           $table->integer('id_breed')->unsigned();
-          $table->foreign('id_breed')->nullable()
+          $table->foreign('id_breed')->nullable()->default(null)
                   ->references('id')->on('breeds')
                   ->onDelete('cascade')->onUpdate('cascade');
 
           $table->integer('id_type')->unsigned();
-          $table->foreign('id_type')->nullable()
+          $table->foreign('id_type')->nullable()->default(null)
                   ->references('id')->on('type')
                   ->onDelete('cascade')->onUpdate('cascade');
+
+          $table->integer('id_pol')->unsigned();
+          $table->foreign('id_pol')->nullable()->default(null)
+                          ->references('id')->on('pol')
+                          ->onDelete('cascade')->onUpdate('cascade');
+
+          $table->integer('id_vozrast')->unsigned();
+          $table->foreign('id_vozrast')->nullable()->default(null)
+                          ->references('id')->on('vozrast')
+                          ->onDelete('cascade')->onUpdate('cascade');
+
           $table->string('title');
           $table->string('url');
           $table->string('preview_foto');
@@ -52,7 +63,7 @@ class CreateAdTable extends Migration
           $table->string('email');
           $table->string('phone');
           $table->text('text');
-          $table->integer('status');
+          $table->integer('status')->default(0);
           $table->timestamps();
           $table->softDeletes();
       });

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Region; use App\Categorey;
+use App\Region; use App\Categorey; use App\Pol; use App\Vozrast;
 class SelectController extends Controller
 {
     public function DataSelectRegions(){
@@ -31,6 +31,18 @@ class SelectController extends Controller
     public function CategoreyType($id){
       $categorey = Categorey::find($id);
       return json_encode($categorey->type->pluck('name','id'));
+    }
+
+    public function CategoreyVozrastPol($id){
+      $categorey = Categorey::find($id);
+      return json_encode(['pol'=>$categorey->pol, 'vozrast'=>$categorey->vozrast]);
+    }
+
+    public function PolAll(){
+      return json_encode(Pol::all()->pluck('name','id'));
+    }
+    public function VozrastAll(){
+      return json_encode(Vozrast::all()->pluck('name','id'));
     }
 
 }

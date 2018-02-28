@@ -65,6 +65,7 @@ function Form(Object){
     this.submit = function(){
        this.QjObject.submit();
     };
+
 }
 
 function SeletUl(Object){// #id,oberka,divContener - обязательны
@@ -87,13 +88,13 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.surely = Object.surely || false,
        this.metka = Object.metka;
 
-       this.childEdit = function(){
+    /*   this.childEdit = function(){
            var edit = this.child.length;
            if((this.child.length === 1)||(this.child.length === 0)){
              return this;
            } else{
             return  this.child[edit-2];}
-       },
+       },*/
 
       this.HtmlGet = function(){
           if((this.id!==false)){
@@ -106,9 +107,7 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
          if(this.html == null){
             this.html = $(this.oberka).html();
          }
-        // console.log(this.QjObject);
        },
-
 
        this.choneSelect = function(){
            $(this.id).chosen();
@@ -124,60 +123,18 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
                  htmlOption += "<option value='"+key+"'>"+dataArray[key]+"</option>\n"
             }
 
-            this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"+ //split обрезает #
-                      "<select data-placeholder='"+this.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+this.id.split('#')[1]+"' name='"+(this.name || this.id.split('#')[1]) +"'>\n"+
-                      htmlOption+"</select>\n</div>";
+       this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"+ //split обрезает #
+                   "<select data-placeholder='"+this.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+this.id.split('#')[1]+"' name='"+(this.name || this.id.split('#')[1]) +"'>\n"+
+                   htmlOption+"</select>\n</div>";
        };
 
-       this.Delete = function(){//console.log($(this.oberka));
-      //   console.log($(this.oberka));
-        // $(this.oberka).remove();
-        if((this.oberka)&&(document.getElementById(this.oberka.split('#')[1]) !== null)){
-          document.getElementById(this.oberka.split('#')[1]).remove();
-          this.ObjectForm.DeleteArray(this);}
+       this.Delete = function(){
+            // $(this.oberka).remove();
+            if((this.oberka)&&(document.getElementById(this.oberka.split('#')[1]) !== null)){
+            document.getElementById(this.oberka.split('#')[1]).remove();
+            this.ObjectForm.DeleteArray(this);}
         };
 
-  /*    this.childSeletSQL = function(url, json, option, bd,Fn){
-           var jsonTrue = json || false;
-           var thisObject = this;
-           if(this.parent.value !== false){
-           var FN = Fn || function(){};
-         if(!bd){
-           if(this.parent.valueArray == null){
-           url += '/'+this.parent.value;
-            } else {url += '/'+this.parent.valueArray[this.parent.value]; }}
-        else { url += '/'+bd;} alert(url);
-      $.ajax({
-         url: url,
-          success: function(data){
-            var  dataArray = JSON.parse(data);
-            var htmlOption ="<option value=''></option>\n";
-            if(option){
-               htmlOption += option;
-            }
-             for (var key in dataArray) {
-                  htmlOption += "<option value='"+key+"'>"+dataArray[key]+"</option>\n"
-             }
-           thisObject.html = "<div id='"+thisObject.oberka.split('#')[1]+"' class='"+thisObject.oberkaClass+"'>\n"+ //split обрезает #
-                     "<select data-placeholder='"+thisObject.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+thisObject.id.split('#')[1]+"' name='"+(thisObject.name || thisObject.id.split('#')[1]) +"'>\n"+
-                     htmlOption+"</select>\n</div>";
-
-         if(!jsonTrue){
-             $(thisObject.parent.childEdit().oberka).after(thisObject.html);
-             thisObject.HtmlGet();
-
-             $(thisObject.oberka).hide().fadeIn(300);
-             thisObject.choneSelect();
-        } else {
-            thisObject.Delete();
-            $(thisObject.parent.childEdit().oberka).after(thisObject.html);
-             $(thisObject.oberka).hide().show(300);
-             thisObject.HtmlGet();
-             thisObject.choneSelect();
-             }
-          FN();
-          }});
-        }},*/
           //url -- адрес запроса
           //ParentValue - значения value родителя
 
@@ -211,14 +168,23 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
                    thisObject.BuildSelect(Array);
                   }
               thisObject.Delete();
-              $(thisObject.parent.childEdit().oberka).after(thisObject.html);
+              $(thisObject.parent.oberka).after(thisObject.html);
                $(thisObject.oberka).hide().show(300);
-            //   thisObject.HtmlGet();
+               thisObject.HtmlGet();
                thisObject.choneSelect();
                 FN();
               }}});
               },
 
+       this.RequestAddition = function(url, FN){
+         zhis = this;
+         $.ajax({
+            url: url,
+             success: function(data){
+                  data = JSON.parse(data);
+                  FN(data);
+          }});
+       },
        this.JsonOptionSet = function(url, FN, placeholderP){
         var json;
         var F = FN || function(){};
@@ -310,6 +276,31 @@ var inputUl = function(ObjectA){
     this.surely = ObjectA.surely || false,
     this.metka = ObjectA.metka;
 
+    this.BuildInputsRadio = function(url){
+      var zhis = this;
+      let promise = new Promise(function(resolve, reject) {
+        $.ajax({
+           url: url,
+           success: function(data){
+              data = JSON.parse(data);
+              zhis.html = '<div id="'+zhis.oberka.split('#')[1]+'" class="col-md-6 form-group">\n'
+                          +'<div class="'+zhis.class+'">\n'
+                          +'<h4>'+zhis.placeholder+'</h4>\n';
+              for (var key in data) {
+                 zhis.html +='<span>'+data[key]+'</span>\n';
+                 zhis.html += '<input value="'+key+'" name="'+zhis.name+'" type="'+zhis.type+'"/>\n';
+              }
+              zhis.html+='</div>\n</div>\n';
+              resolve(zhis.html);
+            },
+            error: function(){
+              zhis.html = '';
+              reject('Error inputUl.BuildInputsRadio!!!');
+            }
+          });
+       });
+       return promise;
+    };
     this.htmlGet = function(){
        if(this.QjObject){
         this.name = this.QjObject.attr("name");
@@ -771,7 +762,7 @@ $(document).ready(function(){
 
 
 if($("div").is("#add_post")){
-    yepnope("/script/addPost.js");
+    yepnope("/script/AddAd.js");
 }
 if($("div").is("#edit_post")){
     yepnope("/script/editPost.js");

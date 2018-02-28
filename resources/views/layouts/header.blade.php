@@ -107,7 +107,7 @@
               </div>
               <div class="col-md-3">
                  <div id="add_obivlenij">
-                    <a id="a_add" href="/add_announcement">
+                    <a id="a_add" href="/ad/add">
                         <span>
                             Подать обьявления
                         </span>

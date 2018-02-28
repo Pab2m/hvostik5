@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Notifications;
 use App\Notifications\MailResetPasswordToken;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
