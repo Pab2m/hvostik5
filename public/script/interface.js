@@ -1,5 +1,5 @@
 $(document).ready(function() {
- 
+
     // Консоль
     //var console = $("#console");
 
@@ -9,18 +9,18 @@ $(document).ready(function() {
 
     // Стандарный input для файлов
     var fileInput = $('#file-field');
-    
+
     // ul-список, содержащий миниатюрки выбранных файлов
     var imgList = $('ul#img-list');
-    
+
     // Контейнер, куда можно помещать файлы методом drag and drop
     var dropBox = $('#img-container');
 
     // Счетчик всех выбранных файлов и их размера
     var imgCount = 0;
     var imgSize = 0;
-    
-    
+
+
     ////////////////////////////////////////////////////////////////////////////
 
 
@@ -48,9 +48,9 @@ $(document).ready(function() {
     function displayFiles(files) {
         var imageType = /image.*/;
         var num = 0;
-        
+
         $.each(files, function(i, file) {
-            
+
             // Отсеиваем не картинки
             if (!file.type.match(imageType)) {
                // log('Файл отсеян: `'+file.name+'` (тип '+file.type+')');
@@ -79,16 +79,16 @@ $(document).ready(function() {
                     updateInfo();
                 };
             })(img);
-            
+
             reader.readAsDataURL(file);
         });
-		
+
     $('.deletImg').on('click',function(){
-	$(this).parent().remove()
-	});
+	     $(this).parent().remove();
+	 });
     }
-    
-    
+
+
     ////////////////////////////////////////////////////////////////////////////
 
 
@@ -101,7 +101,7 @@ $(document).ready(function() {
             displayFiles(this.files);
         }
     });
-          
+
 
     // Обработка событий drag and drop при перетаскивании файлов на элемент dropBox
     // (когда файлы бросят на принимающий элемент событию drop передается объект Event,
@@ -133,7 +133,7 @@ $(document).ready(function() {
 //    // экземпляры объекта uploaderObject. По мере загрузки, обновляем показания progress bar,
 //    // через обработчик onprogress, по завершении выводим информацию
 //    $("#upload-all").click(function() {
-//        
+//
 //        imgList.find('li').each(function() {
 //            var uploadItem = this;
 //            var pBar = $(uploadItem).find('.progress');
@@ -147,7 +147,7 @@ $(document).ready(function() {
 //                onprogress: function(percents) {
 //                    updateProgress(pBar, percents);
 //                },
-//                
+//
 //                oncomplete: function(done, data) {
 //                    if(done) {
 //                        updateProgress(pBar, 100);
@@ -160,12 +160,12 @@ $(document).ready(function() {
 //        });
 //    });
 
-    
+
     // Проверка поддержки File API в браузере
     if(window.FileReader == null) {
        // log('Ваш браузер не поддерживает File API!');
     }
-    
-   
-	
+
+
+
 });

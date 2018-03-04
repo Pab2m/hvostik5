@@ -1,4 +1,9 @@
 var AdAdd = (function(){
+  jQuery(function($) {
+   $.mask.definitions['~']='[+-]';
+   $('input#phone').mask('+7(999) 999-99-99');
+       });
+
 
   var deleteSelekt = function(Catalog){
             var SeletUlTrue = false;

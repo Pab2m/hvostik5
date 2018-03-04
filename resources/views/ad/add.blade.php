@@ -1,5 +1,15 @@
 @extends('layouts.main')
+@section('title')
+Добавить объявление
+@stop
+@section('head')
 
+@stop
+@section('footer-script')
+<script src="/script/jquery.maskedinput-1.2.2.js"></script>
+<script src="/script/uploaderObject.js"></script>
+<script src="/script/interface.js"></script>
+@stop
 @section('content')
 @if(Auth::check())
 <div id="add_post" class="col-sm-11">
@@ -38,7 +48,7 @@
     </div>
 <div class="form-group" >
     <div  id="input_post" class="col-sm-10" >
- <input id='post' placeholder='Описание' class="form-control" name='title' rows='8'/>
+ <textarea id='post' placeholder='Описание' class="form-control" name='post' type="text" rows='8'></textarea>
     </div>
 </div>
 
@@ -46,11 +56,11 @@
 <div class="form-group" >
     <div class="row">
         <div class="col-md-5">
-   <input id='file-field' placeholder='Названия объявления' class="btn btn-default" multiple='true' name='file' accept='image/*,image/jpeg'/>
+   <input id='file-field' class="btn btn-default" multiple='true' name='file' type="file" accept='image/*,image/jpeg'/>
         </div>
         <div class="col-md-7">
             <div>
-         Обубликовать указанный Email: <input id='privat_email' class="form-control" name='privat_email' disabled  type="checkbox"/>
+         Обубликовать указанный Email: <input id='privat_email' class="form-control" name='privat_email' checked  type="checkbox"/>
             </div>
 
  @if(Auth::user()->pravo===88)
@@ -74,7 +84,7 @@
  </div>
     </div>
 </div>
-     </div>
+</div>
 </div>
 
  <button id='button_add_annou' class="add btn btn-default" type="button" >Опубликовать</button>

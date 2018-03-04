@@ -3,9 +3,9 @@
         <div id="prova">Все прова защищены<br>2015
         <div id="versiya">
             Версия:0.0.4.2.2510.17
-        </div>    
         </div>
-   
+        </div>
+
  </div>
 
 	<!--[if lt IE 9]>
@@ -16,7 +16,7 @@
 	<![endif]-->
 
 	<script src="/libs/jquery-mousewheel/jquery.mousewheel.min.js"></script>
-        <script src="/libs/bootstrap/bootstrap.min.js"></script>
+  <script src="/libs/bootstrap/bootstrap.min.js"></script>
 	<script src="/libs/fancybox/jquery.fancybox.pack.js"></script>
 	<script src="/libs/waypoints/waypoints-1.6.2.min.js"></script>
 	<script src="/libs/scrollto/jquery.scrollTo.min.js"></script>

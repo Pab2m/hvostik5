@@ -766,6 +766,7 @@ if($("div").is("#add_post")){
 }
 if($("div").is("#edit_post")){
     yepnope("/script/editPost.js");
+
 }
 if($("form").is("#formSearch")){
     yepnope("/script/search.js");
