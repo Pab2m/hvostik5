@@ -64,7 +64,16 @@ return [
     |
     */
 
+
     'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,//Namespace\Of\Your\User\Model\User::class,
+            'table' => 'users',
+        ],
+    ],
+
+  /*  'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
