@@ -8,4 +8,6 @@ class Ad extends Model
 {
     protected $table = 'ad';
     protected $guarded = array('status');
+
+  
 }

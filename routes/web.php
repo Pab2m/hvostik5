@@ -60,15 +60,5 @@ Route::get('/data/pol','\App\Http\Controllers\SelectController@PolAll');
 Route::get('/data/vozrast','\App\Http\Controllers\SelectController@VozrastAll');
 
 
-Route::get('/json/breeds', function(){
-//  $fail = file_get_contents('json/citys.json', true);
-//  $arrayJson = json_decode($fail);
-$poroda_sobak = DB::table('poroda_sobak')->get();
-//  dd($porada_koshek);
-  $trans = array("а" => "a", "б" => "b", "в" => "v", "г"=>"g", "д"=>"d", "е"=>"e", "ё"=>"e", "ж"=>"zh", "з"=>"z", "и"=>"i", "й"=>"y", "к"=>"k", "л"=>"l", "м"=>"m", "н"=>"n", "о"=>"o", "п"=>"p", "р"=>"r", "с"=>"s", "т"=>"t", "у"=>"u", "ф"=>"f", "х"=>"kh", "ц"=>"ts", "ч"=>"ch", "ш"=>"sh", "щ"=>"shch", "ъ"=>"", "ы"=>"y", "ь"=>"", "э"=>"e", "ю"=>"yu", "я"=>"ya"," "=>"-");
-    //  strtr(mb_strtolower($str), $trans);
-      foreach ($poroda_sobak as $key => $value) {
-    //   DB::insert('insert into breeds (name, id_categorys, url) values (?, ?, ?)', [$value->name, 3, strtr(mb_strtolower($value->name), $trans)]);
-       }
-       dd('Гут');});
+Route::get('/roles', '\App\Http\Controllers\Test@roleTest');
 //Route::get('/test','\App\Http\Controllers\SelectController@CategoreyType');
