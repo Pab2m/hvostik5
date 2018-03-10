@@ -87,27 +87,38 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.ObjectForm = Object.ObjectForm || false,
        this.surely = Object.surely || false,
        this.metka = Object.metka;
-
-    /*   this.childEdit = function(){
-           var edit = this.child.length;
-           if((this.child.length === 1)||(this.child.length === 0)){
-             return this;
-           } else{
-            return  this.child[edit-2];}
-       },*/
+       this.valueChildren = false;
 
       this.HtmlGet = function(){
           if((this.id!==false)){
           this.name = this.name === false ? this.id.split('#')[1]+"_name":this.name;
           this.QjObject = $(this.id);
           this.oberkaJq  = $(this.oberka);
+
           if(!this.placeholder){
-          this.placeholder = this.QjObject.attr("data-placeholder");}
+              this.placeholder = this.QjObject.attr("data-placeholder")
+          }
+          this.value = this.QjObject.attr('value-old') || false;
          }
          if(this.html == null){
             this.html = $(this.oberka).html();
          }
-       },
+       };
+       this.childValueGet = function(){
+           try {
+             var valueChildrenStr = this.parent.QjObject.attr('value-children').split(' ');
+           } catch (e) {
+              var valueChildrenStr = false;
+           }
+           if(valueChildrenStr){ this.parent.valueChildren = {};
+             var ar = [];
+             for (var key in valueChildrenStr) {
+                ar = valueChildrenStr[key].split('|');
+                this.parent.valueChildren[ar[0]] = ar[1];
+             }
+           }
+      ///     console.log(this.parent.valueChildren);
+       };
 
        this.choneSelect = function(){
            $(this.id).chosen();
@@ -220,14 +231,15 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
 
         }
     };
-    this.Set = function(id){
-    if(id != undefined){
-    this.value = id;
+  this.Set = function(FnHeir = function(){}){
+   if (this.value){
     var Bd = this.QjObject.find("option[value='"+ this.value +"']");
     Bd.attr("selected","selected");
     $("div"+this.id+"_chosen span").text(Bd.text());
-   }
-    }
+    FnHeir();
+  }
+  };
+
   if(this.ObjectForm !== false){
   this.ObjectForm.PushArray(this);
   };
