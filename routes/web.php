@@ -35,7 +35,7 @@ Route::get('/message', function(){  return view('message');
     }
 });
 
-Route::get('/test','\App\Http\Controllers\Auth\RegisterController@UserActivationMail');
+//Route::get('/test','\App\Http\Controllers\Auth\RegisterController@UserActivationMail');
 Route::get('/user/activation/{id}/{activation_code}','\App\Http\Controllers\UserController@getActivate')->name('activation_code');
 //Route::get('/user/password/reset','Auth\ResetPasswordController@ResetPassworsView');
 //Route::get('/user/reset/paswword','Auth\ResetPasswordController@ResetPassworsEmailGo');
@@ -48,6 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/logout','UserController@logout');
 
   Route::get('/ad/add','\App\Http\Controllers\AdController@ViewAdAdd');
+  Route::post('/ad/add','\App\Http\Controllers\AdController@ValidateAd');
 });
 
 Route::get('/data/regions', '\App\Http\Controllers\SelectController@DataSelectRegions');

@@ -1,4 +1,4 @@
-var addPost = (function(){
+  var addPost = (function(){
 
    var deleteSelekt = function(Catalog){
                        var SeletUlTrue = false;

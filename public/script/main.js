@@ -106,18 +106,18 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        };
        this.childValueGet = function(){
            try {
-             var valueChildrenStr = this.parent.QjObject.attr('value-children').split(' ');
+             var valueChildrenStr = this.QjObject.attr('value-children').split(' ');
            } catch (e) {
               var valueChildrenStr = false;
            }
-           if(valueChildrenStr){ this.parent.valueChildren = {};
+           if(valueChildrenStr){ this.valueChildren = {};
              var ar = [];
              for (var key in valueChildrenStr) {
                 ar = valueChildrenStr[key].split('|');
-                this.parent.valueChildren[ar[0]] = ar[1];
+                this.valueChildren[ar[0]] = ar[1];
              }
+              this.QjObject.attr('value-children','');
            }
-      ///     console.log(this.parent.valueChildren);
        };
 
        this.choneSelect = function(){
@@ -254,7 +254,7 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
   var Fn = function(Object){
    $(Object.oberka).find('.chosen-single').css({border:"2px solid #24C8FF"});
   };
-  Object.QjObject.one("change",function(){ console.log(88);
+  Object.QjObject.one("change",function(){
       Fn(Object);
   });
  }
@@ -276,7 +276,7 @@ var inputUl = function(ObjectA){
     } else if(this.html){
         this.QjObject = $(this.html);}
     }
-    this.value = ObjectA.value || this.QjObject.val() || '';
+    if(this.QjObject) this.value = ObjectA.value || this.QjObject.val() || '';
 
     this.placeholder = ObjectA.placeholder || null,
     this.type = ObjectA.type || this.QjObject.attr("type") || null,
@@ -300,7 +300,7 @@ var inputUl = function(ObjectA){
                           +'<h4>'+zhis.placeholder+'</h4>\n';
               for (var key in data) {
                  zhis.html +='<span>'+data[key]+'</span>\n';
-                 zhis.html += '<input value="'+key+'" name="'+zhis.name+'" type="'+zhis.type+'"/>\n';
+                 zhis.html += '<input id="'+zhis.id+'" value="'+key+'" name="'+zhis.name+'" type="'+zhis.type+'"/>\n';
               }
               zhis.html+='</div>\n</div>\n';
               resolve(zhis.html);
@@ -313,7 +313,14 @@ var inputUl = function(ObjectA){
        });
        return promise;
     };
-    this.htmlGet = function(){
+    this.htmlGet = function(){ console.log('this.QjObject.length= '+this.QjObject.length);
+       if(this.QjObject.length == 0){ console.log('id = '+this.id);
+         if(this.id){
+         this.QjObject =$("#"+this.id);
+       } else if(this.name) {this.QjObject = this.ObjectForm.QjObject.find("[name='"+this.name+"']"); console.log(this.name); console.log(this.QjObject);
+     } else console.log('QjObject empty!!!');
+
+       }
        if(this.QjObject){
         this.name = this.QjObject.attr("name");
         this.type = this.QjObject.attr("type");
@@ -337,10 +344,11 @@ var inputUl = function(ObjectA){
        this.value = value;
        this.QjObject.val(value);
     }
-    this.ValueSetRadio = function(id) {
-        if(id != undefined){
-         var val = this.QjObject.filter("input[value="+id+"]");
+    this.Set = function(Fn = function(){}) {
+        if(this.value){console.log(this.QjObject);
+         var val = this.QjObject.filter("input[value="+this.value+"]");
          val.prop({checked:true});
+         Fn();
         }
     };
 
