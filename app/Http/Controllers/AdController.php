@@ -22,7 +22,7 @@ public function ValidateAd(Request $request){
               'id_vozrast' =>'integer',
               'title' =>'required',
               'email' =>'required|email',
-              'text' => 'required|size:100']);
+              'text' => 'required']);
 
    if ($validator->fails()) {
       return redirect('/ad/add')
@@ -30,7 +30,7 @@ public function ValidateAd(Request $request){
                   ->withInput();
 
     }
-    return dd(88);
+    return dd($request->all());
 }
 
 
