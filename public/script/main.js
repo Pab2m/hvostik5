@@ -313,7 +313,7 @@ var inputUl = function(ObjectA){
        });
        return promise;
     };
-    this.htmlGet = function(){ console.log('this.QjObject.length= '+this.QjObject.length);
+    this.htmlGet = function(){ 
        if(this.QjObject.length == 0){ console.log('id = '+this.id);
          if(this.id){
          this.QjObject =$("#"+this.id);
@@ -529,59 +529,6 @@ function Button(ObjectP){
    }
             }
     });
-}
-
-
- function Fails(FormJq,Fn){
-    // Обаботка события нажатия на кнопку "Загрузить". Проходим по всем миниатюрам из списка,
-    // читаем у каждой свойство file (добавленное при создании) и начинаем загрузку, создавая
-    // экземпляры объекта uploaderObject. По мере загрузки, обновляем показания progress bar,
-    // через обработчик onprogress, по завершении выводим информацию
-         var imgList = $('ul#img-list');
-         var i=0;
-         if(imgList.find('li').length!==0){
-         var ImgAjaxN = 0;
-         var LiLength =imgList.find('li').length;
-         if(LiLength > 4){
-             LiLength = 4;
-         }
-         $('input.img').remove();
-         imgList.find('li').each(function(index) {
-         var uploadItem = this;
-         new uploaderObject({
-                file:       uploadItem.file,
-                url:        '/add_img',
-                fieldName:  'my-pic',
-
-                onprogress: function(percents) {
-                 //   updateProgress(pBar, percents);
-                },
-                oncomplete: function(done, data) {
-                    ImgAjaxN++;
-                    if(done) {
-                     FormJq.append("<input class='img' type='hidden' name='img[]' value='"+data+"'>");
-                    } else {
-                       console.log('Ошибка при загрузке файла `'+uploadItem.file.name+'`:<br/>'+this.lastError.text);
-                    }
-                 if(ImgAjaxN==LiLength){
-                   $('input.img').map(function(indx,element){
-                       if($(element).val()==0){
-                           alert('При загрузки файла под номером '+(indx+1)+' произошла ошибка!');
-                       }
-                   });
-           //   $("form#add").submit();
-             Fn();
-             return true;
-
-                 }
-                }
-            });
-        });
-        }else{
-      //  $("form#add").submit();
-      Fn();
-        return true;
-      }
 }
 
 var myModal = function(ObjectP){

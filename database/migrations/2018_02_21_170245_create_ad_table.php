@@ -58,8 +58,8 @@ class CreateAdTable extends Migration
 
           $table->string('title');
           $table->string('url');
-          $table->string('preview_foto');
-          $table->string('foto');
+          $table->string('preview_foto')->nullable();
+          $table->text('foto')->nullable();
           $table->string('email');
           $table->string('phone');
           $table->text('text');

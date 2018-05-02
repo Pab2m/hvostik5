@@ -47,8 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
   Route::get('/user', 'UserController@cabinet');
   Route::get('/logout','UserController@logout');
 
-  Route::get('/ad/add','\App\Http\Controllers\AdController@ViewAdAdd');
-  Route::post('/ad/add','\App\Http\Controllers\AdController@ValidateAd');
+  Route::get('/ad/add','\App\Http\Controllers\AdController@ViewAdAdd')->middleware('auth');
+  Route::post('/ad/add','\App\Http\Controllers\AdController@AdAdd');
+  Route::post('/ad/fails','\App\Http\Controllers\AdController@addImg');
 });
 
 Route::get('/data/regions', '\App\Http\Controllers\SelectController@DataSelectRegions');
@@ -62,4 +63,8 @@ Route::get('/data/vozrast','\App\Http\Controllers\SelectController@VozrastAll');
 
 
 Route::get('/roles', '\App\Http\Controllers\Test@roleTest');
-//Route::get('/test','\App\Http\Controllers\SelectController@CategoreyType');
+Route::get('/test', '\App\Http\Controllers\AdController@ValidateFoto');
+
+Route::get('/image',function(){
+phpinfo();
+});
