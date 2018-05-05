@@ -1,11 +1,16 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
 
-        </div>
-    </div>
+<div id="title">
+    <h1>{{$title_content}}</h1>
 </div>
+ <div id='content-left' class='col-md-12'>
+ <div id="announcement" class="container-fluid">
+   @foreach($ad_all as $ad)
+          @include('ad.ad-short')
+   @endforeach
+
+</div>
+ </div>
 @endsection

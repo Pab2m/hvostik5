@@ -13,12 +13,10 @@
 
 Auth::routes();
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'HomeController@index');
 
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/registration', function(){
     return view('auth.register');
 });
@@ -63,8 +61,7 @@ Route::get('/data/vozrast','\App\Http\Controllers\SelectController@VozrastAll');
 
 
 Route::get('/roles', '\App\Http\Controllers\Test@roleTest');
-Route::get('/test', '\App\Http\Controllers\AdController@ValidateFoto');
-
-Route::get('/image',function(){
-phpinfo();
+Route::get('/test', function(){
+    $ad = App\Ad::find(2);
+  dd($ad->CategoryGet());
 });

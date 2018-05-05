@@ -14,6 +14,11 @@ class AdController extends Controller
   return view('ad.add');
   }
 
+public static function IndexAd($s = 1){
+      return Ad::AllAd($s);
+}
+
+
   public static function PostImgSeveTmp($data){
       if($data['my-pic']){
           $data_mesec=date('/Y-m/');
@@ -195,10 +200,9 @@ public function AdAdd(Request $request){
        if(isset($data['privat_email'])) {
           $data['privat_email'] = true;
         } else $data['privat_email'] = false;
-
-      if(($data['sostoynia']) && ($user->hasRole('admin'))) {
-          $sostoynia = true;
-        } else {$sostoynia = false;}
+      if(($data['sostoynia'] == true) && ($user->hasRole('admin'))) {
+          $sostoynia = 1;
+        } else {$sostoynia = 0;}
 
        $data['id_user'] = $user->id;
        $data['title'] = strip_tags($data['title']);
