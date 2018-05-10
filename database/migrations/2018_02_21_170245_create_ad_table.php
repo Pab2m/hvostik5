@@ -57,10 +57,12 @@ class CreateAdTable extends Migration
                           ->onDelete('cascade')->onUpdate('cascade');
 
           $table->string('title');
-          $table->string('url');
+          $table->string('name');
+          $table->string('slag')->unique();
           $table->string('preview_foto')->nullable();
           $table->text('foto')->nullable();
           $table->string('email');
+          $table->boolean('privat_email')->default(true);
           $table->string('phone');
           $table->text('text');
           $table->integer('status')->default(0);

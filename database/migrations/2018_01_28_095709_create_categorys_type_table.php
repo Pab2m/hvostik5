@@ -22,6 +22,9 @@ class CreateCategorysTypeTable extends Migration
         $table->foreign('id_type')
               ->references('id')->on('type')
               ->onDelete('cascade')->onUpdate('cascade');
+        $table->string('slag')->unique();
+        $table->boolean('pol')->default(false);
+        $table->boolean('vozrast')->default(false);
       });
     }
 

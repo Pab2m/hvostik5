@@ -22,6 +22,7 @@ public static function AllAd($sostoynia=1){
     $query = Ad::where('status', '=',(int)$sostoynia)->orderBy("created_at","DESC")->get();
     return $query;
      }
+
 public function region(){
        return $this->belongsTo('App\Region','id_region','id');
 }
@@ -51,6 +52,17 @@ public function CategoryGet($delimiter = ' '){
               }
       }
       return substr($str,0,-strlen($delimiter));
+}
+
+public function SlagSet(){
+
+  $str = '';
+  foreach ($this->category_sostav as $key => $value) {
+          if($this -> $key !== NULL){
+            $str.= $this-> $value -> name.$delimiter;
+          }
+  }
+
 }
 
 

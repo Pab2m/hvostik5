@@ -20,7 +20,8 @@ class CreateBreedsTable extends Migration
                 $table->foreign('id_categorys')
                       ->references('id')->on('categorys')
                       ->onDelete('cascade')->onUpdate('cascade');
-                $table->string('url');
+                $table->boolean('placeholder')->default(false);      
+                $table->string('slag')->unique();
         });
     }
 

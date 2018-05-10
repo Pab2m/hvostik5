@@ -20,7 +20,7 @@ class CreateRegionsTable extends Migration
         $table->foreign('id_county')
                ->references('id')->on('countrys')
                ->onDelete('cascade')->onUpdate('cascade');
-        $table->string('url')->unique();
+        $table->string('slag')->unique();
       });
     }
 

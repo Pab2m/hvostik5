@@ -16,7 +16,7 @@ class CreateTypeTable extends Migration
       Schema::create('type', function (Blueprint $table) {
         $table->increments('id');
         $table->string('name');
-        $table->string('url');
+        $table->string('slag')->unique();
       });
     }
 

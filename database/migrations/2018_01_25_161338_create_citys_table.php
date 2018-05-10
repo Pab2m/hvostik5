@@ -21,7 +21,7 @@ class CreateCitysTable extends Migration
         $table->foreign('id_region')
               ->references('id')->on('regions')
               ->onDelete('cascade')->onUpdate('cascade');
-        $table->string('url');
+        $table->string('slag')->unique();
       });
     }
 
