@@ -221,7 +221,6 @@ public function AdAdd(Request $request){
                $data['preview_foto'] = NULL;}
 
       return Ad::CreateAd($data, $sostoynia);
-
       }
 
 }
