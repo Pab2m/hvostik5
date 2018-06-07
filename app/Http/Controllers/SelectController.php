@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Region; use App\Categorey; use App\Pol; use App\Vozrast;
+use App\Region;
+use App\City;
+use App\Categorey;
+use App\Pol;
+use App\Vozrast;
+
 class SelectController extends Controller
 {
     public function DataSelectRegions(){
@@ -11,7 +16,7 @@ class SelectController extends Controller
     }
 
     public function DataDelectCitys($id_region){
-      return json_encode(\App\City::where('id_region', (int)$id_region)->pluck('name','id'));
+      return json_encode(City::where('id_region', (int)$id_region)->pluck('name','id'));
     }
 
     public function DataSelectCategorey(){
@@ -43,6 +48,19 @@ class SelectController extends Controller
     }
     public function VozrastAll(){
       return json_encode(Vozrast::all()->pluck('name','id'));
+    }
+
+    public function FailGet(){
+      $fail = file(public_path().'/sterlitamak.txt');
+
+      foreach ($fail as $value) {
+        $id_region = 1004565;
+        $margins = explode('|', $value);
+        $data = array("name"=>$margins[0],"id_region"=>$id_region,"ves"=>$margins[1], "slug"=>$this->Translit($margins[0]));
+      //  $city = City::create($data);
+    //    $city->save();
+      }
+      return  dd(City::where('id_region', (int)$id_region)->get());
     }
 
 }
