@@ -56,6 +56,12 @@ Route::get('/data/categoreys/addition/{id_categorys}','\App\Http\Controllers\Sel
 Route::get('/data/pol','\App\Http\Controllers\SelectController@PolAll');
 Route::get('/data/vozrast','\App\Http\Controllers\SelectController@VozrastAll');
 
+Route::group(['prefix'=>'fuhrer','middleware'=>'role:admin'], function(){
+  //Route::get('/', '\App\Http\Controllers\Admin\AdminController@index');
+    Route::get('/', function(){
+      return view('admin.index');
+    });
+});
 
 Route::get('/roles', '\App\Http\Controllers\Test@roleTest');
 Route::get('/test', function(){

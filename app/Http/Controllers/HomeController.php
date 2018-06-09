@@ -24,8 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-       $ad = AdController::IndexAd(1);
+      $ad = AdController::IndexAd(1);
       $user  = Auth::user();
-       return view('index', array('ad_all'=>$ad, 'user'=> $user, 'title_content'=>'Все объявления'));
+      return view('index', array('ad_all'=>$ad, 'user'=> $user, 'title_content'=>'Все объявления'));
     }
 }
