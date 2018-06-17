@@ -31,9 +31,10 @@
         <script src="/script/pikaday.min.js"></script>
         <script src="/script/moment.js"></script>
         <script src="/script/main.js"></script>
+        <script src="/script/amain.js"></script>
 
 
-<title>Титле</title>
+<title>Админ панель - hvostik</title>
 </head>
  <body>
  <!--   <div id="navebar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">

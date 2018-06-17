@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
   Route::post('/ad/fails','\App\Http\Controllers\AdController@addImg');
 });
 
-Route::get('/data/regions', '\App\Http\Controllers\SelectController@DataSelectRegions');
+Route::get('/data/regions', '\App\Http\Controllers\SelectController@RegionsJson');
 Route::get('/data/categoreys', '\App\Http\Controllers\SelectController@DataSelectCategorey');
 Route::get('/data/city/{id_region}', '\App\Http\Controllers\SelectController@DataDelectCitys');
 Route::get('/data/breeds/{id_categorys}','\App\Http\Controllers\SelectController@DataSelectBreed');
@@ -57,10 +57,9 @@ Route::get('/data/pol','\App\Http\Controllers\SelectController@PolAll');
 Route::get('/data/vozrast','\App\Http\Controllers\SelectController@VozrastAll');
 
 Route::group(['prefix'=>'fuhrer','middleware'=>'role:admin'], function(){
-  //Route::get('/', '\App\Http\Controllers\Admin\AdminController@index');
-    Route::get('/', function(){
-      return view('admin.index');
-    });
+    Route::get('/','\App\Http\Controllers\Admin\AdminController@index');
+    Route::get('/select','\App\Http\Controllers\Admin\AdminController@selects');
+
 });
 
 Route::get('/roles', '\App\Http\Controllers\Test@roleTest');

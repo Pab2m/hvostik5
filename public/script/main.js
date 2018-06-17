@@ -128,11 +128,13 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
           if (this.QjObject.length === 0) return false; else return true;
        };
        //dataArray - Object, array
-       this.BuildSelect = function(dataArray){
+       this.BuildSelect = function(dataArray = []){
+         if(dataArray.length !== 0){
             var htmlOption ="<option value=''></option>\n";
             for (var key in dataArray) {
                  htmlOption += "<option value='"+key+"'>"+dataArray[key]+"</option>\n"
             }
+          } else var htmlOption = '';
 
        this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"+ //split обрезает #
                    "<select data-placeholder='"+this.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+this.id.split('#')[1]+"' name='"+(this.name || this.id.split('#')[1]) +"'>\n"+
@@ -141,7 +143,7 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
 
        this.Delete = function(){
             // $(this.oberka).remove();
-            if((this.oberka)&&(document.getElementById(this.oberka.split('#')[1]) !== null)){
+            if((this.ObjectForm) && ((this.oberka)&&(document.getElementById(this.oberka.split('#')[1]) !== null))){
             document.getElementById(this.oberka.split('#')[1]).remove();
             this.ObjectForm.DeleteArray(this);}
         };
@@ -155,9 +157,12 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
                  var OptionZero = Parameters.OptionZero || false;
                  var placeholder = Parameters.placeholder || false;
                  var FN = Parameters.FN || function(){};
-                 if(ParentValue){
-                    url+='/' + this.parent.value;
-                 } else return console.log('Ошибка!!! Нет значения value у родителя!');
+        
+                 if((ParentValue) && ("number" === typeof ParentValue)){
+                    url+='/' + ParentValue;
+                 } else if ((this.parent instanceof SeletUl) && (this.parent.value))
+                 {url+='/' + this.parent.value;}
+                 else return console.log('Ошибка!!! Нет значения value у родителя!');
                  var thisObject = this;
             $.ajax({
                url: url,
@@ -179,7 +184,7 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
                    thisObject.BuildSelect(Array);
                   }
               thisObject.Delete();
-              $(thisObject.parent.oberka).after(thisObject.html);
+               $(thisObject.parent.oberka).after(thisObject.html);
                $(thisObject.oberka).hide().show(300);
                thisObject.HtmlGet();
                thisObject.choneSelect();
@@ -313,7 +318,7 @@ var inputUl = function(ObjectA){
        });
        return promise;
     };
-    this.htmlGet = function(){ 
+    this.htmlGet = function(){
        if(this.QjObject.length == 0){ console.log('id = '+this.id);
          if(this.id){
          this.QjObject =$("#"+this.id);

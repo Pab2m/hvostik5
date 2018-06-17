@@ -115,7 +115,7 @@ var AdAdd = (function(){
      RegionAdd.child.push(SiteAdd);
      SiteAdd.childSeletSQL({
       url:'/data/city',
-      ParentValue:true,
+    //  ParentValue:true,
       FN:function(){
         SiteAdd.QjObject.parent().attr("style","clear: both;");
         SiteAdd.ObjectChange();

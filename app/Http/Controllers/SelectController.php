@@ -8,11 +8,20 @@ use App\City;
 use App\Categorey;
 use App\Pol;
 use App\Vozrast;
+use App\Country;
 
 class SelectController extends Controller
 {
-    public function DataSelectRegions(){
-      return json_encode(Region::all()->pluck('name','id'));
+    public static function  DataSelectCountrys(){
+      return Country::all()->pluck('name','id');
+    }
+
+    public static function DataSelectRegions(){
+      return Region::all()->pluck('name','id');
+    }
+
+    public function RegionsJson(){
+      return json_encode($this->DataSelectRegions());
     }
 
     public function DataDelectCitys($id_region){
@@ -61,6 +70,14 @@ class SelectController extends Controller
     //    $city->save();
       }
       return  dd(City::where('id_region', (int)$id_region)->get());
+    }
+
+    public static function ConvertOption($arrayData = []){
+          $optin_html = '';
+           foreach ($arrayData as $key => $value) {
+                $optin_html .= '<option value="'.$key.'">'.$value.'</option>\n';
+           }
+           return $optin_html;
     }
 
 }
