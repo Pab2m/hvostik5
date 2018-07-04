@@ -83,7 +83,7 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.html =  null,
        this.parent = Object.parent || null,
        this.child = [],
-       this.json = null,
+       this.SelectValueArray = null,
        this.ObjectForm = Object.ObjectForm || false,
        this.surely = Object.surely || false,
        this.metka = Object.metka;
@@ -127,16 +127,20 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.isAtDomm = function(){
           if (this.QjObject.length === 0) return false; else return true;
        };
-       //dataArray - Object, array
-       this.BuildSelect = function(dataArray = []){
+
+       this.BuildOption = function(dataArray = []){
          if(dataArray.length !== 0){
             var htmlOption ="<option value=''></option>\n";
             for (var key in dataArray) {
                  htmlOption += "<option value='"+key+"'>"+dataArray[key]+"</option>\n"
             }
           } else var htmlOption = '';
-
-       this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"+ //split обрезает #
+          return htmlOption;
+       };
+       //dataArray - Object, array
+       this.BuildSelect = function(dataArray = []){
+         let htmlOption = this.BuildOption(dataArray);
+         this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"+ //split обрезает #
                    "<select data-placeholder='"+this.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+this.id.split('#')[1]+"' name='"+(this.name || this.id.split('#')[1]) +"'>\n"+
                    htmlOption+"</select>\n</div>";
        };
@@ -150,14 +154,13 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
 
           //url -- адрес запроса
           //ParentValue - значения value родителя
-
         this.childSeletSQL = function(Parameters){//url, json, option, bd,Fn)
                  var url = Parameters.url// || return console.log('Ошибка!!! Неправильный адрес запроса!');
                  var ParentValue = Parameters.ParentValue || false;
                  var OptionZero = Parameters.OptionZero || false;
                  var placeholder = Parameters.placeholder || false;
                  var FN = Parameters.FN || function(){};
-        
+
                  if((ParentValue) && ("number" === typeof ParentValue)){
                     url+='/' + ParentValue;
                  } else if ((this.parent instanceof SeletUl) && (this.parent.value))
@@ -210,16 +213,26 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
           url: url,
           dataType:json,
           success: function(data){
-            var array = JSON.parse(data);
-            var htmlOption ="<option value=''></option>\n";
-            for (var key in array) {
-                 htmlOption += "<option value='"+key+"'>"+array[key]+"</option>\n"
-            }
-            ObjectSelect.QjObject.html(htmlOption);
+            let SelectValueArray = JSON.parse(data);
+            ObjectSelect.QjObject.html(ObjectSelect.BuildOption(SelectValueArray));
             ObjectSelect.choneSelect();
             F();}
           });
-    },
+    };
+    this.SerchSelect = ()=>{
+        let chosenDiv = $(this.id+"_chosen ul.chosen-results");
+        if(chosenDiv.length >= 1){
+           let li_activeResultHtml = '';
+           let i = 1;
+          for (var key in this.SelectValueArray) {
+            li_activeResultHtml += "<li class='active-result' style='' data-option-array-index='"+i+"'>"+this.SelectValueArray[key]+"</li>\n";
+            i++;
+          }
+           chosenDiv.html(li_activeResultHtml);
+           console.log(chosenDiv);
+           return true;
+        }
+    };
 
     this.ObjectChange =  function(ObjectFun){
       var  objetThis = this;
@@ -319,10 +332,10 @@ var inputUl = function(ObjectA){
        return promise;
     };
     this.htmlGet = function(){
-       if(this.QjObject.length == 0){ console.log('id = '+this.id);
+       if(this.QjObject.length == 0){
          if(this.id){
          this.QjObject =$("#"+this.id);
-       } else if(this.name) {this.QjObject = this.ObjectForm.QjObject.find("[name='"+this.name+"']"); console.log(this.name); console.log(this.QjObject);
+       } else if(this.name) {this.QjObject = this.ObjectForm.QjObject.find("[name='"+this.name+"']");
      } else console.log('QjObject empty!!!');
 
        }
