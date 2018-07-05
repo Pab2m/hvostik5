@@ -33,17 +33,16 @@
         <div class="col-md-3 site_select">
           <div id='site'>
           </div>
-          <div id="null-site">
+      <!--    <div id="null-site">
             Выбарите регион!!!
-          </div>
-          <!--<div id="site_select">
-            <select data-placeholder="Город" style="width: 100%; display: none;" class="chosen-select" tabindex="-1" id="sity_select_admin" name="sity_select_admin">
-              <option value=""></option>
-              </select>
-          </div>
-            <div class="col-md-12 selekt">
-              <a class="btn btn-default" href="/fyurer/select/detail/citys">Подробней</a>
-            </div>-->
+          </div>-->
+    <div id="site">
+            <select data-placeholder="Город" style="width: 100%; display: block;" class="chosen-select" tabindex="-1" id="sity_select" name="sity_select">
+            </select>
+    </div>
+    <div class="col-md-12 selekt">
+        <a class="btn btn-default" href="/fyurer/select/detail/citys">Подробней</a>
+    </div>
       </div>
       <div class="col-md-3">
 <div id="categorij_select_admin" class=" has-feedback">
