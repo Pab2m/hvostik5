@@ -28,9 +28,13 @@ class SelectController extends Controller
       return json_encode(City::where('id_region', (int)$id_region)->pluck('name','id'));
     }
 
-    public function DataSelectCategorey(){
-      return json_encode(Categorey::all()->pluck('name','id'));
+    public static function DataSelectCategorey(){
+      return Categorey::all()->pluck('name','id');
     }
+    public function CategoreyJson(){
+      return json_encode($this->DataSelectCategorey());
+    }
+// Обрабатывает SeletUl.childSeletSQL
      public function DataSelectBreed($id_categorey){
        $categorey = Categorey::find((int)$id_categorey);
          if($categorey === null){
@@ -40,7 +44,7 @@ class SelectController extends Controller
        $placeholderArray = $breeds->where('placeholder',true)->all();
        $placeholder = array_shift($placeholderArray)->name;
        $breeds = $breeds->where('placeholder',false);
-       return json_encode(['breeds'=>$breeds->pluck('name','id'), 'placeholder'=>$placeholder]);
+       return json_encode(['data'=>$breeds->pluck('name','id'), 'placeholder'=>$placeholder]);
      }
     public function CategoreyType($id){
       $categorey = Categorey::find($id);

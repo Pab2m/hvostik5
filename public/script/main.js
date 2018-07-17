@@ -77,7 +77,7 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.parentDiv = Object.divContener || false;
        if(Object.QjObject === undefined){
        this.QjObject = this.oberka !== false || this.id !== false ? $(this.oberka+" "+this.id): false;
-       } else {this.QjObject = Object.QjObject;}
+       } else this.QjObject = Object.QjObject;
        this.value = false,
        this.placeholder = Object.placeholder || false,
        this.html =  null,
@@ -88,12 +88,14 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
        this.surely = Object.surely || false,
        this.metka = Object.metka;
        this.valueChildren = false;
-
+      
       this.HtmlGet = function(){
           if((this.id!==false)){
           this.name = this.name === false ? this.id.split('#')[1]+"_name":this.name;
           this.QjObject = $(this.id);
-          this.oberkaJq  = $(this.oberka);
+          if(this.QjObject instanceof jQuery){
+             this.oberkaJq = this.QjObject.parent();
+          } else  this.oberkaJq  = $(this.oberka);
 
           if(!this.placeholder){
               this.placeholder = this.QjObject.attr("data-placeholder")
@@ -138,11 +140,21 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
           return htmlOption;
        };
        //dataArray - Object, array
-       this.BuildSelect = function(dataArray = []){
+       //wrapper - оборачивает select в обертку
+       this.BuildSelect = function(dataArray = [], wrapper = true){
          let htmlOption = this.BuildOption(dataArray);
-         this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"+ //split обрезает #
+  /*       this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"+ //split обрезает #
                    "<select data-placeholder='"+this.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+this.id.split('#')[1]+"' name='"+(this.name || this.id.split('#')[1]) +"'>\n"+
-                   htmlOption+"</select>\n</div>";
+                   htmlOption+"</select>\n</div>";*/
+        this.html = "<select data-placeholder='"+this.placeholder+"' style='' class='chosen-select' tabindex='7' id='"+this.id.split('#')[1]+"' name='"+(this.name || this.id.split('#')[1]) +"'>\n"
+                      +htmlOption+
+                    "\n</select>\n";
+        if(wrapper){
+          this.html = "<div id='"+this.oberka.split('#')[1]+"' class='"+this.oberkaClass+"'>\n"
+                        +this.html+
+                      "\n<div>\n";
+        }
+        return  this.html;
        };
 
        this.Delete = function(){
@@ -152,9 +164,10 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
             this.ObjectForm.DeleteArray(this);}
         };
 
-          //url -- адрес запроса
-          //ParentValue - значения value родителя
-        this.childSeletSQL = function(Parameters){//url, json, option, bd,Fn)
+        // Принемает массив c данными для заполнения SelrtUl Option
+        //1) ---- Array [key] = value
+        //2) ---- Array [placeholder = [string], dara = [Araay[key] = value ]]
+        this.childSeletSQL = function(Parameters){
                  var url = Parameters.url// || return console.log('Ошибка!!! Неправильный адрес запроса!');
                  var ParentValue = Parameters.ParentValue || false;
                  var OptionZero = Parameters.OptionZero || false;
@@ -182,7 +195,7 @@ function SeletUl(Object){// #id,oberka,divContener - обязательны
                   else {
                   if(placeholder){
                     thisObject.placeholder = Array.placeholder;
-                    thisObject.BuildSelect(Array.breeds);
+                    thisObject.BuildSelect(Array.data);
                   } else {
                    thisObject.BuildSelect(Array);
                   }

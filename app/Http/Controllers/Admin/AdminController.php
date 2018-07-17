@@ -18,6 +18,8 @@ class AdminController extends Controller
       $optionCountrys = SelectController::ConvertOption($arrayCountrys);
       $arrayRegions = SelectController::DataSelectRegions()->all();
       $optionRegions = SelectController::ConvertOption($arrayRegions);
-      return view('admin.select.selects',['country'=>$optionCountrys,'region'=>$optionRegions]);
+      $arrayCategorey = SelectController::DataSelectCategorey()->all();
+      $optionCategorey = SelectController::ConvertOption($arrayCategorey);
+      return view('admin.select.selects',['country'=>$optionCountrys,'region'=>$optionRegions, 'category'=>$optionCategorey]);
     }
 }

@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('/data/regions', '\App\Http\Controllers\SelectController@RegionsJson');
-Route::get('/data/categoreys', '\App\Http\Controllers\SelectController@DataSelectCategorey');
+Route::get('/data/categoreys', '\App\Http\Controllers\SelectController@CategoreyJson');
 Route::get('/data/city/{id_region}', '\App\Http\Controllers\SelectController@DataDelectCitys');
 Route::get('/data/breeds/{id_categorys}','\App\Http\Controllers\SelectController@DataSelectBreed');
 Route::get('/data/tip/{id_categorys}','\App\Http\Controllers\SelectController@CategoreyType');

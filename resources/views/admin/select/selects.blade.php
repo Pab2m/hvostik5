@@ -31,8 +31,6 @@
             </div>
         </div>
         <div class="col-md-3 site_select">
-          <div id='site'>
-          </div>
       <!--    <div id="null-site">
             Выбарите регион!!!
           </div>-->
@@ -45,9 +43,9 @@
     </div>
       </div>
       <div class="col-md-3">
-<div id="categorij_select_admin" class=" has-feedback">
-   <select data-placeholder="Категория" style="width: 100%; display: none;" class="chosen-select" tabindex="-1" id="category_select_admin" name="category_select_admin">
-    <option value=""></option>
+<div id="categorij" class=" has-feedback">
+   <select data-placeholder="Категория" style="width: 100%; display: none;" class="chosen-select" tabindex="-1" id="category_select" name="category_selec">
+    <option value=""></option>{!!$category!!}
 
     </select>
   </div>
